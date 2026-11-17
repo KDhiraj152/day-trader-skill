@@ -440,7 +440,10 @@ def load_chart(sym, interval, day, offline=None):
 
     def at(key, i):
         arr = q.get(key) or []
-        return arr[i] if i < len(arr) else None
+        try:
+            return arr[i]
+        except IndexError:
+            return None
 
     bars = []
     for i, t in enumerate(r.get("timestamp") or []):
