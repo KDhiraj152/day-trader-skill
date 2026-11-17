@@ -8,10 +8,16 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ["3.8", "3.13"]
+        include:
+          # 3.8 is what the README promises: pinned to 22.04, the newest
+          # image that still provisions it
+          - python-version: "3.8"
+            os: ubuntu-22.04
+          - python-version: "3.13"
+            os: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
