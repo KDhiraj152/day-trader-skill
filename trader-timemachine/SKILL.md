@@ -27,16 +27,16 @@ rule on every past session. It is a simulation built from the stock's own
 recent bars, not a prediction. Day trading loses most people money, and a
 good-looking replay does not change that.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/timemachine.py" run                    # trader/plan.json, 10,000 replays, seed 19
-python3 "${CLAUDE_SKILL_DIR}/timemachine.py" run --write            # also save trader/timemachine.json
-python3 "${CLAUDE_SKILL_DIR}/timemachine.py" run --until 15:55      # end each replay at your flat-by time
-python3 "${CLAUDE_SKILL_DIR}/timemachine.py" run --json
-python3 "${CLAUDE_SKILL_DIR}/timemachine.py" run --symbol TSLA --date 2026-10-19 \
+python3 "${HERMES_SKILL_DIR}/timemachine.py" run                    # trader/plan.json, 10,000 replays, seed 19
+python3 "${HERMES_SKILL_DIR}/timemachine.py" run --write            # also save trader/timemachine.json
+python3 "${HERMES_SKILL_DIR}/timemachine.py" run --until 15:55      # end each replay at your flat-by time
+python3 "${HERMES_SKILL_DIR}/timemachine.py" run --json
+python3 "${HERMES_SKILL_DIR}/timemachine.py" run --symbol TSLA --date 2026-10-19 \
     --entry 364.18 --stop 358.32 --target 370.04 --entry-time "10:15 AM"
-python3 "${CLAUDE_SKILL_DIR}/timemachine.py" chart --from           # ASCII fan chart of the saved run
+python3 "${HERMES_SKILL_DIR}/timemachine.py" chart --from           # ASCII fan chart of the saved run
 ```
 
 Other flags: `--replays N`, `--seed N` (default 19), `--window N` (default 2

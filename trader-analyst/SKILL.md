@@ -25,7 +25,7 @@ trade: what did the last report say, and is the next one inside this trade?
 Tool in this folder (standard library Python, no keys):
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/facts.py" --help
+python3 "${HERMES_SKILL_DIR}/facts.py" --help
 ```
 
 It needs the SEC User-Agent (`sec_user_agent` in `trader/config.json`, or
@@ -74,8 +74,8 @@ email. It refuses to call SEC without one.
    `trader/watchlist.json`):
 
    ```bash
-   python3 "${CLAUDE_SKILL_DIR}/facts.py" TSLA
-   python3 "${CLAUDE_SKILL_DIR}/facts.py" TSLA NVDA AMD --metrics trader/metrics.json
+   python3 "${HERMES_SKILL_DIR}/facts.py" TSLA
+   python3 "${HERMES_SKILL_DIR}/facts.py" TSLA NVDA AMD --metrics trader/metrics.json
    ```
 
    `--quarters 8` shows two years, `--json` everything machine-readable,

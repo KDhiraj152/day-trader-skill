@@ -24,14 +24,14 @@ anything in the middle of a fast move. A stop is a plan, not a guarantee: a
 gap or a fast market can fill past it. Day trading loses most people money,
 and a neat plan does not change that.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/exit.py" plan                          # trader/entry.json: midpoint stop, 2R target
-python3 "${CLAUDE_SKILL_DIR}/exit.py" plan --stop or-mid --target 1R --write
-python3 "${CLAUDE_SKILL_DIR}/exit.py" plan --stop atr:1.5           # needs the session's bars (Yahoo or --offline)
-python3 "${CLAUDE_SKILL_DIR}/exit.py" plan --symbol TSLA --entry 364.18 --or-high 362.18 --or-low 354.47
-python3 "${CLAUDE_SKILL_DIR}/exit.py" show                          # the current trader/plan.json
+python3 "${HERMES_SKILL_DIR}/exit.py" plan                          # trader/entry.json: midpoint stop, 2R target
+python3 "${HERMES_SKILL_DIR}/exit.py" plan --stop or-mid --target 1R --write
+python3 "${HERMES_SKILL_DIR}/exit.py" plan --stop atr:1.5           # needs the session's bars (Yahoo or --offline)
+python3 "${HERMES_SKILL_DIR}/exit.py" plan --symbol TSLA --entry 364.18 --or-high 362.18 --or-low 354.47
+python3 "${HERMES_SKILL_DIR}/exit.py" show                          # the current trader/plan.json
 ```
 
 Other flags: `--flat-by 15:55`, `--json`, `--now "2026-10-19 10:15"` (New

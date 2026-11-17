@@ -26,13 +26,13 @@ BLOCK is final for that order: it does not go to the user for a yes, and it
 does not go to the broker. Most people who day trade lose money. These limits
 keep each loss and each day's losses small. They do not make a trade win.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/check.py"                           # trader/ files; writes trader/state/risk.json
-python3 "${CLAUDE_SKILL_DIR}/check.py" --json
-python3 "${CLAUDE_SKILL_DIR}/check.py" --no-write                # look without recording
-python3 "${CLAUDE_SKILL_DIR}/check.py" --now "2026-10-19 10:15"  # pin the clock (New York time)
+python3 "${HERMES_SKILL_DIR}/check.py"                           # trader/ files; writes trader/state/risk.json
+python3 "${HERMES_SKILL_DIR}/check.py" --json
+python3 "${HERMES_SKILL_DIR}/check.py" --no-write                # look without recording
+python3 "${HERMES_SKILL_DIR}/check.py" --now "2026-10-19 10:15"  # pin the clock (New York time)
 ```
 
 ## What it reads and writes

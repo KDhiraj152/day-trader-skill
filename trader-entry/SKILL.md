@@ -24,15 +24,15 @@ CLOSES above it is. Then it says the time and the price, writes them down for
 the Exit Planner, and stops. It never buys anything. Day trading loses most
 people money, and a clean signal does not change that.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/entry.py" check TSLA                  # 15-minute opening range, 5-minute bars
-python3 "${CLAUDE_SKILL_DIR}/entry.py" check TSLA --write          # also save trader/entry.json
-python3 "${CLAUDE_SKILL_DIR}/entry.py" check TSLA --setup level --level 371.20
-python3 "${CLAUDE_SKILL_DIR}/entry.py" check TSLA --interval 1m --min-volume-x 1.5
-python3 "${CLAUDE_SKILL_DIR}/entry.py" watch TSLA --until 15:30    # one line per closed bar, stops on the trigger
-python3 "${CLAUDE_SKILL_DIR}/entry.py" watchlist                   # every hit in trader/watchlist.json
+python3 "${HERMES_SKILL_DIR}/entry.py" check TSLA                  # 15-minute opening range, 5-minute bars
+python3 "${HERMES_SKILL_DIR}/entry.py" check TSLA --write          # also save trader/entry.json
+python3 "${HERMES_SKILL_DIR}/entry.py" check TSLA --setup level --level 371.20
+python3 "${HERMES_SKILL_DIR}/entry.py" check TSLA --interval 1m --min-volume-x 1.5
+python3 "${HERMES_SKILL_DIR}/entry.py" watch TSLA --until 15:30    # one line per closed bar, stops on the trigger
+python3 "${HERMES_SKILL_DIR}/entry.py" watchlist                   # every hit in trader/watchlist.json
 ```
 
 Other flags: `--or-minutes N` (default 15), `--json`, `--offline FILE` (a

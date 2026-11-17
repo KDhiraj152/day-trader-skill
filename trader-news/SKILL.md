@@ -24,9 +24,9 @@ headline and a move sit side by side.
 Tool in this folder (standard library Python, no keys):
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/news.py"                         # watchlist + plan + portfolio
-python3 "${CLAUDE_SKILL_DIR}/news.py" --tickers TSLA NVDA --hours 12
-python3 "${CLAUDE_SKILL_DIR}/news.py" --no-sec --json
+python3 "${HERMES_SKILL_DIR}/news.py"                         # watchlist + plan + portfolio
+python3 "${HERMES_SKILL_DIR}/news.py" --tickers TSLA NVDA --hours 12
+python3 "${HERMES_SKILL_DIR}/news.py" --no-sec --json
 ```
 
 ## What it reads and writes
@@ -61,7 +61,7 @@ python3 "${CLAUDE_SKILL_DIR}/news.py" --no-sec --json
 
 ## Steps
 
-1. Run the check: `python3 "${CLAUDE_SKILL_DIR}/news.py"`. Exit code 1 means
+1. Run the check: `python3 "${HERMES_SKILL_DIR}/news.py"`. Exit code 1 means
    nothing new. `--all` shows items already seen, `--json` gives everything
    machine readable, `--dry-run` leaves the state alone.
 2. Read the items that matter: every `!` filing, anything tagged earnings,

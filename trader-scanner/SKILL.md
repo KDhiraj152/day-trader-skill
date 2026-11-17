@@ -24,15 +24,15 @@ setup on a chart is not a prediction. Most people who day trade lose money;
 the scanner does not change that. It only saves you from flipping through
 5,000 charts by hand.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/scan.py" universe                       # -> trader/universe.txt
-python3 "${CLAUDE_SKILL_DIR}/scan.py" daily                          # before the open -> trader/watchlist.json
-python3 "${CLAUDE_SKILL_DIR}/scan.py" daily --symbols TSLA,NVDA,AMD  # or --watchlist FILE, --limit 200
-python3 "${CLAUDE_SKILL_DIR}/scan.py" orb                            # after 9:50 AM ET -> trader/watchlist.json
-python3 "${CLAUDE_SKILL_DIR}/scan.py" orb --at 10:15                 # cut the clock at 10:15 AM ET
-python3 "${CLAUDE_SKILL_DIR}/scan.py" orb --watchlist trader/watchlist.json --json
+python3 "${HERMES_SKILL_DIR}/scan.py" universe                       # -> trader/universe.txt
+python3 "${HERMES_SKILL_DIR}/scan.py" daily                          # before the open -> trader/watchlist.json
+python3 "${HERMES_SKILL_DIR}/scan.py" daily --symbols TSLA,NVDA,AMD  # or --watchlist FILE, --limit 200
+python3 "${HERMES_SKILL_DIR}/scan.py" orb                            # after 9:50 AM ET -> trader/watchlist.json
+python3 "${HERMES_SKILL_DIR}/scan.py" orb --at 10:15                 # cut the clock at 10:15 AM ET
+python3 "${HERMES_SKILL_DIR}/scan.py" orb --watchlist trader/watchlist.json --json
 ```
 
 Flags: `--min-price 5` and `--min-volume` (daily 1,000,000, orb 0),

@@ -30,15 +30,15 @@ separate gates, every time, for every order:
 
 Two yeses from the user, one PASS from the rules. No yes, no order.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/ticket.py" show                     # every ticket, READY or not
-python3 "${CLAUDE_SKILL_DIR}/ticket.py" approve --index 1 --reply "yes"
-python3 "${CLAUDE_SKILL_DIR}/ticket.py" result --index 1 --status placed --broker-id ID --filled-qty 8 --filled-price 364.20
-python3 "${CLAUDE_SKILL_DIR}/ticket.py" fill --symbol TSLA --side sell --qty 8 --price 370.04
-python3 "${CLAUDE_SKILL_DIR}/ticket.py" flatten --symbol TSLA --qty 8
-python3 "${CLAUDE_SKILL_DIR}/ticket.py" log
+python3 "${HERMES_SKILL_DIR}/ticket.py" show                     # every ticket, READY or not
+python3 "${HERMES_SKILL_DIR}/ticket.py" approve --index 1 --reply "yes"
+python3 "${HERMES_SKILL_DIR}/ticket.py" result --index 1 --status placed --broker-id ID --filled-qty 8 --filled-price 364.20
+python3 "${HERMES_SKILL_DIR}/ticket.py" fill --symbol TSLA --side sell --qty 8 --price 370.04
+python3 "${HERMES_SKILL_DIR}/ticket.py" flatten --symbol TSLA --qty 8
+python3 "${HERMES_SKILL_DIR}/ticket.py" log
 ```
 
 `ticket.py` never talks to a broker. It renders tickets, checks that a reply

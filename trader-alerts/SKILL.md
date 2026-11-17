@@ -24,21 +24,21 @@ nothing is sold by this skill. With a bracket order the stop-loss and the
 take-profit already sit at the broker and do the work; the alerts tell the
 user what happened and when it is time to be flat.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" clock                          # NYSE open or closed, next open
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" add --from-plan                # stop, target, flat by close from trader/plan.json
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" add --opening-bell
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" add --symbol TSLA --stop 358.32
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" add --symbol TSLA --target 370.04
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" add --at 15:55 --label "flat by close" --before-close
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" add --symbol KO --pct 3
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" check                          # exit 0 = something rang
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" quote TSLA --write             # -> trader/prices.json
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" quote --holdings --write       # portfolio + plan tickers
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" list
-python3 "${CLAUDE_SKILL_DIR}/alerts.py" reset tsla-plan-stop
+python3 "${HERMES_SKILL_DIR}/alerts.py" clock                          # NYSE open or closed, next open
+python3 "${HERMES_SKILL_DIR}/alerts.py" add --from-plan                # stop, target, flat by close from trader/plan.json
+python3 "${HERMES_SKILL_DIR}/alerts.py" add --opening-bell
+python3 "${HERMES_SKILL_DIR}/alerts.py" add --symbol TSLA --stop 358.32
+python3 "${HERMES_SKILL_DIR}/alerts.py" add --symbol TSLA --target 370.04
+python3 "${HERMES_SKILL_DIR}/alerts.py" add --at 15:55 --label "flat by close" --before-close
+python3 "${HERMES_SKILL_DIR}/alerts.py" add --symbol KO --pct 3
+python3 "${HERMES_SKILL_DIR}/alerts.py" check                          # exit 0 = something rang
+python3 "${HERMES_SKILL_DIR}/alerts.py" quote TSLA --write             # -> trader/prices.json
+python3 "${HERMES_SKILL_DIR}/alerts.py" quote --holdings --write       # portfolio + plan tickers
+python3 "${HERMES_SKILL_DIR}/alerts.py" list
+python3 "${HERMES_SKILL_DIR}/alerts.py" reset tsla-plan-stop
 ```
 
 `--now "2026-10-19 15:55"` pins the clock (New York time); `--offline DIR`

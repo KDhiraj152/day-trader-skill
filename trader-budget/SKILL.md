@@ -24,14 +24,14 @@ proposal only. trader-risk checks it and trader-broker asks the user yes or
 no. Day trading loses most people money. Sizing to a max loss keeps each
 loss small; it does not make a trade win.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/size.py"                        # trader/plan.json + trader/config.json
-python3 "${CLAUDE_SKILL_DIR}/size.py" --write                # write trader/orders.json
-python3 "${CLAUDE_SKILL_DIR}/size.py" --limit --write        # a limit order at the plan's entry
-python3 "${CLAUDE_SKILL_DIR}/size.py" --limit 364.00 --json  # a limit order at 364.00
-python3 "${CLAUDE_SKILL_DIR}/size.py" --weights AAPL=40,KO=60 --config split.json   # weights mode, below
+python3 "${HERMES_SKILL_DIR}/size.py"                        # trader/plan.json + trader/config.json
+python3 "${HERMES_SKILL_DIR}/size.py" --write                # write trader/orders.json
+python3 "${HERMES_SKILL_DIR}/size.py" --limit --write        # a limit order at the plan's entry
+python3 "${HERMES_SKILL_DIR}/size.py" --limit 364.00 --json  # a limit order at 364.00
+python3 "${HERMES_SKILL_DIR}/size.py" --weights AAPL=40,KO=60 --config split.json   # weights mode, below
 ```
 
 `--now "2026-10-19 10:15"` pins the clock (New York time). A plan for
@@ -66,7 +66,7 @@ If `trader/config.json` does not exist, copy `config.example.json` into
 ## Step 2: size the trade
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/size.py" --write
+python3 "${HERMES_SKILL_DIR}/size.py" --write
 ```
 
 Whole shares only: Alpaca takes no fractions in a bracket order. The size is
