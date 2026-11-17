@@ -1,5 +1,7 @@
 # The Day Trader skill
 
+[![tests](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml)
+
 11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.
 
 Free, MIT, no signup, no API key. The tools are plain Python that read free
@@ -191,6 +193,46 @@ public filings the minute they post.
 
 **Taxes.** Day-trading gains are short-term gains, and frequent trading makes
 wash sales likely. Nothing here is tax advice.
+
+## When something goes wrong
+
+Most problems here are one of five things.
+
+**A data source stopped answering.** Yahoo's chart endpoint is not an official
+API: it can rate-limit you (empty or missing bars), change its JSON shape, or
+just lag. If a scan comes back with no usable charts, wait a few minutes and
+try again before assuming every stock died. The Nasdaq Trader lists, SEC
+EDGAR and the House Clerk are more reliable, but they all publish on their
+own schedule: the universe is rebuilt when you run `universe`, PTRs appear
+when the Clerk posts them.
+
+**SEC tools return nothing and say why.** EDGAR asks every automated user to
+identify itself. Put your real name and email in `trader/config.json`
+(`"sec_user_agent": "Your Name you@example.com"`) or set the `SEC_USER_AGENT`
+environment variable. Without it the news tool still shows headlines and
+just skips the filings.
+
+**A guard refused your command and it looks like an error.** It is not: it
+is the tool checking the data. The common ones:
+a price quote older than 15 minutes is not used ("Sized at the plan's
+entry"); a plan written on an earlier day is refused (make a new one with
+`/trader-exit`); a risk check from an earlier day makes the ticket "NOT
+READY" (run `check.py` again); an order without a stop is blocked while
+`"require_stop"` is on, which is the default. Read the reason: it names the
+file that is stale or the limit that was hit.
+
+**The broker never receives anything.** That is the design. `/trader-broker`
+only prints the ticket and the exact tool-call JSON; Hermes's Alpaca
+connector is what actually places it, after you type yes for that one
+order. If nothing happens after you say yes, check that the connector is
+set up (`hermes_desktop_config.example.json` shows the shape), that its
+tool permission is "Needs approval" rather than "Always allow", and that
+`"paper": true` is pointing at the paper account you expect.
+
+**A PTR PDF will not parse.** `/trader-pelosi` falls back to printing the
+PDF path so you can open it yourself. For automatic text extraction it
+needs poppler: `brew install poppler` (macOS) or your package manager's
+equivalent, then `ptr.py fetch` again.
 
 ## Files
 
