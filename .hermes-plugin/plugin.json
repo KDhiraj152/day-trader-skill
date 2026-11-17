@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "day-trader-skill",
   "description": "11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
   "version": "2.0.0",
@@ -17,6 +18,5 @@
     "backtesting",
     "opening-range-breakout",
     "paper-trading"
-  ],
-  "skills": "./"
+  ]
 }

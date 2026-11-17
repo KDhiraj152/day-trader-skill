@@ -1,5 +1,4 @@
 {
-  "$schema": "https://hermes-agent.nousresearch.com/marketplace.schema.json",
   "name": "day-trader-skill",
   "description": "The Day Trader skill pack for Hermes: the Trader skill v2",
   "owner": {

@@ -67,12 +67,18 @@ class Repo(unittest.TestCase):
         with open(os.path.join(ROOT, ".hermes-plugin", "plugin.json")) as fh:
             plugin = json.load(fh)
         self.assertEqual(plugin["name"], "day-trader-skill")
-        self.assertEqual(plugin["skills"], "./")
+        # Hermes discovers SKILL.md folders itself: no "skills" key, and the
+        # manifest validates against the official plugin schema
+        self.assertNotIn("skills", plugin)
+        self.assertEqual(plugin["$schema"], "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json")
         self.assertEqual(plugin["description"], ABOUT)
         with open(os.path.join(ROOT, ".hermes-plugin", "marketplace.json")) as fh:
             market = json.load(fh)
         self.assertEqual(market["name"], "day-trader-skill")
         self.assertEqual(market["plugins"][0]["name"], "day-trader-skill")
+        # no $schema in the marketplace manifest: no published schema for it,
+        # and a dead link is worse than none
+        self.assertNotIn("$schema", market)
 
     def test_readme_carries_the_reel_copy(self):
         with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as fh:
