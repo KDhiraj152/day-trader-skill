@@ -1,7 +1,7 @@
 """Guards for the pack's copy structure.
 
 Each skill folder carries its own copy of the shared helpers (eastern time,
-holidays, json and price loaders) because Hermes installs skills as standalone
+holidays, json and price loaders) because agents install skills as standalone
 folders: one folder, no shared import. That is a design constraint, not an
 accident. The cost is drift: a fix applied to one copy but not its siblings.
 These tests catch that. If a variation is deliberate, add (name, folder) to
@@ -96,7 +96,7 @@ class SharedCopies(unittest.TestCase):
 
 class Versions(unittest.TestCase):
     def test_every_user_agent_matches_plugin_version(self):
-        with open(os.path.join(ROOT, ".hermes-plugin", "plugin.json")) as fh:
+        with open(os.path.join(ROOT, "plugin.json")) as fh:
             version = json.load(fh)["version"]
         minor = ".".join(version.split(".")[:2])  # 2.0.0 -> 2.0
         wrong = []

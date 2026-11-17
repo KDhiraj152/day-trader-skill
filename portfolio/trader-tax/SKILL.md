@@ -20,15 +20,17 @@ blind. It never decides what is right for the user's taxes. **This is not tax
 advice**: a tax professional decides what applies to them. Say that once,
 early, in every answer that uses this skill.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/lots.py" report --lots              # every lot, gain or loss, term
-python3 "${HERMES_SKILL_DIR}/lots.py" sell KO 2 --price 90.11    # what a sale would realize (FIFO)
-python3 "${HERMES_SKILL_DIR}/lots.py" sell KO 2 --method specific --lots KO-2
-python3 "${HERMES_SKILL_DIR}/lots.py" harvest --min-loss 100     # candidates, with wash-sale checks
-python3 "${HERMES_SKILL_DIR}/lots.py" harvest --min-loss 100 --write
-python3 "${HERMES_SKILL_DIR}/lots.py" wash KO                    # is buying KO today a wash sale?
+python3 "${SKILL_DIR}/lots.py" report --lots              # every lot, gain or loss, term
+python3 "${SKILL_DIR}/lots.py" sell KO 2 --price 90.11    # what a sale would realize (FIFO)
+python3 "${SKILL_DIR}/lots.py" sell KO 2 --method specific --lots KO-2
+python3 "${SKILL_DIR}/lots.py" harvest --min-loss 100     # candidates, with wash-sale checks
+python3 "${SKILL_DIR}/lots.py" harvest --min-loss 100 --write
+python3 "${SKILL_DIR}/lots.py" wash KO                    # is buying KO today a wash sale?
 ```
 
 ## What it reads and writes
@@ -95,7 +97,7 @@ that it can see would be a wash sale.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

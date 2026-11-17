@@ -5,7 +5,7 @@ This tool never talks to a broker and never places anything. It does three
 things around the one moment that matters, your yes:
 
   show      renders each proposed order as a plain-English ticket plus the
-            exact JSON Hermes will send to Alpaca's place_stock_order tool.
+            exact JSON your agent will send to Alpaca's place_stock_order tool.
             An order is READY only if trader-risk passed THIS exact order
             today (matched by fingerprint) and nobody has decided on it yet.
   approve   records your explicit yes for ONE order, with your reply word for
@@ -241,16 +241,16 @@ def render(order, idx, total, cfg, risk, state, today):
     for w in (rv or {}).get("warnings", []):
         lines.append("  note: " + w)
     if broker == "ibkr":
-        lines.append("  Hermes drafts this with the Interactive Brokers connector. IBKR sends it to your")
+        lines.append("  Your agent drafts this with the Interactive Brokers connector. IBKR sends it to your")
         lines.append("  IBKR account, and it only goes to the market after you approve it there.")
     else:
-        lines.append("  Hermes will call place_stock_order with exactly:")
+        lines.append("  Your agent will call place_stock_order with exactly:")
         for l in json.dumps(tool_input(order), indent=2).splitlines():
             lines.append("    " + l)
     if ready:
         lines.append("  Reply \"yes\" to place this one order, or \"no\" to skip it.")
         if broker != "ibkr":
-            lines.append("  Hermes's own card then asks again: Allow once places it, Deny stops it.")
+            lines.append("  Your agent's approval prompt then asks again: Allow once places it, Deny stops it.")
     return "\n".join(lines), ready
 
 
@@ -371,7 +371,7 @@ def cmd_approve(a):
     else:
         print("Now call place_stock_order with exactly:")
         print(json.dumps(tool_input(order), indent=2))
-        print("Hermes card shows Allow once / Deny. Then: ticket.py result --index %d --status "
+        print("Your agent's approval prompt shows Allow once / Deny. Then: ticket.py result --index %d --status "
               "placed|denied|failed" % a.index)
     return 0
 

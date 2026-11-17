@@ -24,15 +24,17 @@ setup on a chart is not a prediction. Most people who day trade lose money;
 the scanner does not change that. It only saves you from flipping through
 5,000 charts by hand.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/scan.py" universe                       # -> trader/universe.txt
-python3 "${HERMES_SKILL_DIR}/scan.py" daily                          # before the open -> trader/watchlist.json
-python3 "${HERMES_SKILL_DIR}/scan.py" daily --symbols TSLA,NVDA,AMD  # or --watchlist FILE, --limit 200
-python3 "${HERMES_SKILL_DIR}/scan.py" orb                            # after 9:50 AM ET -> trader/watchlist.json
-python3 "${HERMES_SKILL_DIR}/scan.py" orb --at 10:15                 # cut the clock at 10:15 AM ET
-python3 "${HERMES_SKILL_DIR}/scan.py" orb --watchlist trader/watchlist.json --json
+python3 "${SKILL_DIR}/scan.py" universe                       # -> trader/universe.txt
+python3 "${SKILL_DIR}/scan.py" daily                          # before the open -> trader/watchlist.json
+python3 "${SKILL_DIR}/scan.py" daily --symbols TSLA,NVDA,AMD  # or --watchlist FILE, --limit 200
+python3 "${SKILL_DIR}/scan.py" orb                            # after 9:50 AM ET -> trader/watchlist.json
+python3 "${SKILL_DIR}/scan.py" orb --at 10:15                 # cut the clock at 10:15 AM ET
+python3 "${SKILL_DIR}/scan.py" orb --watchlist trader/watchlist.json --json
 ```
 
 Flags: `--min-price 5` and `--min-volume` (daily 1,000,000, orb 0),
@@ -168,7 +170,7 @@ Fetched 233 of 234 charts (1 failed or had no data); 231 usable; 95 candidates, 
 The reel's wall had no price floor (AMC at $2.97 is one of the 42), hence
 `--min-price 0`; with the default $5 floor it is 41. TSLA's range is the 9:30
 to 9:40 bars, high 362.18, low 354.47; the 10:10 bar closed at 364.18, 0.55 %
-over the high, at 10:15 AM. The user picks TSLA and Hermes hands it to
+over the high, at 10:15 AM. The user picks TSLA and your agent hands it to
 `/trader-news TSLA`, then `/trader-entry TSLA`. In the reel the universe was
 5,259 US stocks; this tool's rule gives 5,943 on the same files.
 
@@ -197,7 +199,7 @@ never calls data real time, and never promises that a setup works.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

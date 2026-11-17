@@ -20,8 +20,12 @@ first for each of your stocks and tells you only what is new.
 
 Tool in this folder (standard library Python, no keys):
 
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md
+lives). Your agent sets it when it loads a skill; if it does not, substitute
+the folder's path.
+
 ```bash
-python3 "${HERMES_SKILL_DIR}/news.py" --help
+python3 "${SKILL_DIR}/news.py" --help
 ```
 
 ## What it reads and writes
@@ -59,8 +63,8 @@ python3 "${HERMES_SKILL_DIR}/news.py" --help
 1. Run the check:
 
    ```bash
-   python3 "${HERMES_SKILL_DIR}/news.py"
-   python3 "${HERMES_SKILL_DIR}/news.py" --tickers AAPL AXP GOOGL KO BAC --hours 24
+   python3 "${SKILL_DIR}/news.py"
+   python3 "${SKILL_DIR}/news.py" --tickers AAPL AXP GOOGL KO BAC --hours 24
    ```
 
    Exit code 1 means nothing new. `--all` shows items already seen,
@@ -75,19 +79,19 @@ python3 "${HERMES_SKILL_DIR}/news.py" --help
    notice), say so and suggest `/trader-analyst` for the numbers or
    `/trader-risk` to recheck pending orders. Never act on a headline alone.
 
-To run it on a schedule, use `/loop 30m /trader-news` during market hours or
-a scheduled task each morning.
+To run it on a schedule, use your agent's loop or scheduling command during
+market hours, or a scheduled task each morning.
 
 ## Example: the reel's portfolio
 
 The user copied Berkshire's top 5 (AAPL, AXP, GOOGL, KO, BAC). On Tuesday
 2026-10-13 the check shows Apple headlines first ("Apple Introduces HomeView
-Smart Home Hub, Other Gadgets", "Judge orders OpenAI to turn over hiring
-records in Apple trade secrets case", tagged legal), Coca-Cola dividend
+Smart Home Hub, Other Gadgets", a court order in an Apple trade secrets
+case, tagged legal), Coca-Cola dividend
 pieces, and from SEC: Apple's 8-K of 2026-07-30 (item 2.02, earnings results)
 and Coca-Cola's of 2026-07-28 (2.02). Brief: "Apple (your biggest position,
 30.7%) launched a $299 smart home hub; a court ruling in its trade secrets
-case against OpenAI. No new filings from your five companies this week." When
+case. No new filings from your five companies this week." When
 a ticker has no news, say so rather than padding the brief.
 
 ## What it never does

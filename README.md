@@ -2,7 +2,7 @@
 
 [![tests](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml)
 
-11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.
+11 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.
 
 Free, MIT, no signup, no API key. The tools are plain Python that read free
 public data: Yahoo Finance charts, Nasdaq Trader's symbol lists, SEC EDGAR
@@ -21,34 +21,24 @@ an order on its own. Paper trading is the default.
 
 ## Install
 
-Paste this into Hermes:
+Any agent that loads `SKILL.md` folders can run this. Pick the way that fits
+yours:
 
-```
-https://github.com/KDhiraj152/day-trader-skill
-
-install skill
-```
-
-Or as a plugin, in Hermes:
-
-```
-/plugin marketplace add KDhiraj152/day-trader-skill
-/plugin install day-trader-skill@day-trader-skill
-```
-
-Hermes namespaces plugin skills, so installed as a plugin they show up as
-`/day-trader-skill:trader-scanner` and so on. Copy the folders instead if you want
-plain `/trader-scanner`:
+**Copy the skill folders.** Clone the repo and copy the `trader-*` folders
+into your agent's skill directory (each agent documents where that is; it is
+often a `skills/` folder in your home directory or at the project root):
 
 ```bash
 git clone https://github.com/KDhiraj152/day-trader-skill.git
-cp -r day-trader-skill/trader-* ~/.hermes/skills/
+cp -r day-trader-skill/trader-* <your agent's skill folder>/
 ```
 
-Project-local instead of global: copy the same folders into your repo's
-`.hermes/skills/`. No Hermes at all? Paste any single `SKILL.md` at the
-top of a chat and it runs as a mode. You lose the Python tools, but the method
-works.
+**As a plugin.** The repo root has `plugin.json` and `marketplace.json` in
+the neutral agent-plugins.org shape. Agents that read that manifest can
+install the whole pack straight from this repo.
+
+**No skill loader at all?** Paste any single `SKILL.md` at the top of a chat
+and it runs as a mode. You lose the Python tools, but the method works.
 
 The tools need Python 3.8 or newer. Nothing to pip install. The SEC tools
 (news filings, the analyst) ask you to identify yourself: put your name and
@@ -112,9 +102,9 @@ An example, the trade in the reel: Tesla, Monday October 19 2026, real data.
    loss limit, trades per day, reward to risk, the entry window, position
    size and cash. PASS or BLOCK, with the reason.
 8. **`/trader-broker`** shows you the ticket in plain words. You type yes for
-   that exact order. Hermes calls your brokerage connector (Alpaca's MCP
-   server, paper account by default), and Hermes's own "Allow once / Deny"
-   card asks you one more time.
+   that exact order. Your agent calls your brokerage connector (Alpaca's MCP
+   server, paper account by default), and its "Allow once / Deny" approval
+   asks you one more time.
 9. **`/trader-alerts`** rings on the stop, the target and at 3:55 PM to
    flatten whatever is still open.
 
@@ -159,9 +149,9 @@ yourself, and talk to a licensed professional if you need advice.
 
 **No trade goes through until you say yes.** Only `/trader-broker` can lead to
 an order, and only after `/trader-risk` passes that exact order and you type
-yes for it in the chat. Set your brokerage tool to "Needs approval" in Hermes
-(Customize, Connectors, tool permissions), never "Always allow", so Hermes
-own "Allow once / Deny" card is a second check. No options, margin, short
+yes for it in the chat. Set your brokerage tool to "Needs approval" in your
+agent's connector settings, never "Always allow", so its "Allow once / Deny"
+prompt is a second check. No options, margin, short
 selling or leverage unless you turn them on.
 
 **Paper first.** `"paper": true` is the default in `config.example.json`, and
@@ -222,10 +212,10 @@ READY" (run `check.py` again); an order without a stop is blocked while
 file that is stale or the limit that was hit.
 
 **The broker never receives anything.** That is the design. `/trader-broker`
-only prints the ticket and the exact tool-call JSON; Hermes's Alpaca
+only prints the ticket and the exact tool-call JSON; your agent's brokerage
 connector is what actually places it, after you type yes for that one
 order. If nothing happens after you say yes, check that the connector is
-set up (`hermes_desktop_config.example.json` shows the shape), that its
+set up (`mcp_servers.example.json` shows the shape), that its
 tool permission is "Needs approval" rather than "Always allow", and that
 `"paper": true` is pointing at the paper account you expect.
 
@@ -237,6 +227,8 @@ equivalent, then `ptr.py fetch` again.
 ## Files
 
 ```
+plugin.json          the neutral agent-plugins.org manifest (whole pack installs as one plugin)
+marketplace.json     same, for agents that read a marketplace list
 trader-scanner/     SKILL.md, scan.py
 trader-news/        SKILL.md, news.py
 trader-entry/       SKILL.md, entry.py
@@ -244,7 +236,7 @@ trader-exit/        SKILL.md, exit.py
 trader-timemachine/ SKILL.md, timemachine.py
 trader-risk/        SKILL.md, check.py
 trader-budget/      SKILL.md, size.py, config.example.json, targets.example.json
-trader-broker/      SKILL.md, ticket.py, hermes_desktop_config.example.json
+trader-broker/      SKILL.md, ticket.py, mcp_servers.example.json
 trader-alerts/      SKILL.md, alerts.py, alerts.example.json
 trader-analyst/     SKILL.md, facts.py, metrics.example.json
 trader-pelosi/      SKILL.md, ptr.py

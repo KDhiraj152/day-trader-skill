@@ -20,12 +20,14 @@ written by trader-budget, trader-rebalance or trader-tax passes through it.
 A BLOCK is final for that order: it does not go to the user for a yes, and
 it does not go to the broker.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/check.py"             # trader/ files; writes trader/state/risk.json
-python3 "${HERMES_SKILL_DIR}/check.py" --json
-python3 "${HERMES_SKILL_DIR}/check.py" --no-write  # look without recording
+python3 "${SKILL_DIR}/check.py"             # trader/ files; writes trader/state/risk.json
+python3 "${SKILL_DIR}/check.py" --json
+python3 "${SKILL_DIR}/check.py" --no-write  # look without recording
 ```
 
 ## What it reads and writes
@@ -103,7 +105,7 @@ the order is allowed to be shown to the user.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

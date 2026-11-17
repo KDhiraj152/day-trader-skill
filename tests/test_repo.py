@@ -11,7 +11,7 @@ SKILLS = ["trader-scanner", "trader-news", "trader-entry", "trader-exit", "trade
           "trader-pelosi"]
 # portfolio basket (v1 skills moved here)
 PORTFOLIO_SKILLS = ["trader-copycat", "trader-screener", "trader-tax", "trader-rebalance"]
-ABOUT = ("11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every "
+ABOUT = ("11 skills for day trading: scan thousands of charts, track breaking news, time every "
          "entry and exit, and replay every outcome before you risk a dollar.")
 # skills on the way to an order carry the safety block
 ORDER_PATH = ["trader-scanner", "trader-entry", "trader-exit", "trader-timemachine", "trader-budget",
@@ -46,7 +46,8 @@ class Repo(unittest.TestCase):
         # appears the moment anyone runs the pack from this checkout
         root = sorted(d for d in os.listdir(ROOT)
                       if d not in (".git", ".gitignore", ".github", "trader"))
-        self.assertEqual(root, sorted([".hermes-plugin", "LICENSE", "README.md", "tests", "portfolio"] + SKILLS))
+        self.assertEqual(root, sorted(["plugin.json", "marketplace.json", "LICENSE",
+                                       "README.md", "tests", "portfolio"] + SKILLS))
 
     def test_frontmatter_name_and_description(self):
         for s in SKILLS:
@@ -64,15 +65,15 @@ class Repo(unittest.TestCase):
             self.assertIn("yes", low, s)
 
     def test_plugin_manifest_points_at_the_root_skills(self):
-        with open(os.path.join(ROOT, ".hermes-plugin", "plugin.json")) as fh:
+        with open(os.path.join(ROOT, "plugin.json")) as fh:
             plugin = json.load(fh)
         self.assertEqual(plugin["name"], "day-trader-skill")
-        # Hermes discovers SKILL.md folders itself: no "skills" key, and the
+        # Agents discover SKILL.md folders themselves: no "skills" key, and the
         # manifest validates against the official plugin schema
         self.assertNotIn("skills", plugin)
         self.assertEqual(plugin["$schema"], "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json")
         self.assertEqual(plugin["description"], ABOUT)
-        with open(os.path.join(ROOT, ".hermes-plugin", "marketplace.json")) as fh:
+        with open(os.path.join(ROOT, "marketplace.json")) as fh:
             market = json.load(fh)
         self.assertEqual(market["name"], "day-trader-skill")
         self.assertEqual(market["plugins"][0]["name"], "day-trader-skill")
@@ -85,9 +86,9 @@ class Repo(unittest.TestCase):
             readme = " ".join(fh.read().split())
         self.assertTrue(readme.startswith("# The Day Trader skill"))
         for line in (ABOUT,
-                     "https://github.com/KDhiraj152/day-trader-skill install skill",
-                     "/plugin marketplace add KDhiraj152/day-trader-skill",
-                     "/plugin install day-trader-skill@day-trader-skill",
+                     "git clone https://github.com/KDhiraj152/day-trader-skill.git",
+                     "cp -r day-trader-skill/trader-*",
+                     "`plugin.json` and `marketplace.json`",
                      "## Fine print"):
             self.assertIn(line, readme)
         for s in SKILLS:
@@ -101,6 +102,21 @@ class Repo(unittest.TestCase):
             if not rel.startswith(os.path.join("tests", "fixtures")):  # fixtures are real data, kept as published
                 self.assertNotIn("\u2014", text, rel)
             self.assertNotIn("jakeschincariol" + "@" + "gmail.com", text, rel)  # built, so this file passes too
+
+    def test_no_agent_brand_names(self):
+        # the pack installs on any agent: no agent or vendor name anywhere in
+        # the shipped text (brokers like Alpaca and Interactive Brokers are
+        # fine, they are not agents)
+        brands = ("hermes", "claude", "anthropic", "openai", "codex", "nous")
+        for path in every_text_file():
+            rel = os.path.relpath(path, ROOT)
+            if rel.startswith(os.path.join("tests", "fixtures")) or rel == os.path.relpath(__file__, ROOT) \
+                    or rel.startswith("trader" + os.sep):
+                continue  # fixtures are real data; the runtime trader/ folder is generated, not shipped
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                low = fh.read().lower()
+            for b in brands:
+                self.assertNotIn(b, low, rel)
 
     def test_license_says_k_dhiraj(self):
         with open(os.path.join(ROOT, "LICENSE"), encoding="utf-8") as fh:

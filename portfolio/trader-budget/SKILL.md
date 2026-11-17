@@ -19,13 +19,15 @@ The Budget Manager turns "copy this portfolio" into "buy exactly this much of
 each", inside rules the user sets once. It writes proposals only. trader-risk
 checks them and trader-broker asks the user yes or no for each one.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/size.py"                       # trader/targets.json + trader/config.json
-python3 "${HERMES_SKILL_DIR}/size.py" --budget 5000 --write # write trader/orders.json
-python3 "${HERMES_SKILL_DIR}/size.py" --whole-shares --prices trader/prices.json
-python3 "${HERMES_SKILL_DIR}/size.py" --weights AAPL=22.04,AXP=17.14,GOOGL=12.62 --json
+python3 "${SKILL_DIR}/size.py"                       # trader/targets.json + trader/config.json
+python3 "${SKILL_DIR}/size.py" --budget 5000 --write # write trader/orders.json
+python3 "${SKILL_DIR}/size.py" --whole-shares --prices trader/prices.json
+python3 "${SKILL_DIR}/size.py" --weights AAPL=22.04,AXP=17.14,GOOGL=12.62 --json
 ```
 
 ## What it reads and writes
@@ -53,7 +55,7 @@ If `trader/config.json` does not exist, copy `config.example.json` into
 ## Step 2: size it
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/size.py" --write
+python3 "${SKILL_DIR}/size.py" --write
 ```
 
 The maths, in order: the cash buffer comes off the top; the weights are
@@ -113,7 +115,7 @@ own, and never sizes options, margin or short positions.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

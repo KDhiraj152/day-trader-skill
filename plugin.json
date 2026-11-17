@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "day-trader-skill",
-  "description": "11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
+  "description": "11 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
   "version": "2.0.0",
   "author": {
     "name": "K Dhiraj",
@@ -11,8 +11,8 @@
   "repository": "https://github.com/KDhiraj152/day-trader-skill",
   "license": "MIT",
   "keywords": [
-    "hermes-plugin",
-    "hermes-skills",
+    "ai-agent-skills",
+    "mcp",
     "day-trading",
     "stock-market",
     "backtesting",

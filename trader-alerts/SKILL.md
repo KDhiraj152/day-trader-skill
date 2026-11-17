@@ -24,21 +24,23 @@ nothing is sold by this skill. With a bracket order the stop-loss and the
 take-profit already sit at the broker and do the work; the alerts tell the
 user what happened and when it is time to be flat.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/alerts.py" clock                          # NYSE open or closed, next open
-python3 "${HERMES_SKILL_DIR}/alerts.py" add --from-plan                # stop, target, flat by close from trader/plan.json
-python3 "${HERMES_SKILL_DIR}/alerts.py" add --opening-bell
-python3 "${HERMES_SKILL_DIR}/alerts.py" add --symbol TSLA --stop 358.32
-python3 "${HERMES_SKILL_DIR}/alerts.py" add --symbol TSLA --target 370.04
-python3 "${HERMES_SKILL_DIR}/alerts.py" add --at 15:55 --label "flat by close" --before-close
-python3 "${HERMES_SKILL_DIR}/alerts.py" add --symbol KO --pct 3
-python3 "${HERMES_SKILL_DIR}/alerts.py" check                          # exit 0 = something rang
-python3 "${HERMES_SKILL_DIR}/alerts.py" quote TSLA --write             # -> trader/prices.json
-python3 "${HERMES_SKILL_DIR}/alerts.py" quote --holdings --write       # portfolio + plan tickers
-python3 "${HERMES_SKILL_DIR}/alerts.py" list
-python3 "${HERMES_SKILL_DIR}/alerts.py" reset tsla-plan-stop
+python3 "${SKILL_DIR}/alerts.py" clock                          # NYSE open or closed, next open
+python3 "${SKILL_DIR}/alerts.py" add --from-plan                # stop, target, flat by close from trader/plan.json
+python3 "${SKILL_DIR}/alerts.py" add --opening-bell
+python3 "${SKILL_DIR}/alerts.py" add --symbol TSLA --stop 358.32
+python3 "${SKILL_DIR}/alerts.py" add --symbol TSLA --target 370.04
+python3 "${SKILL_DIR}/alerts.py" add --at 15:55 --label "flat by close" --before-close
+python3 "${SKILL_DIR}/alerts.py" add --symbol KO --pct 3
+python3 "${SKILL_DIR}/alerts.py" check                          # exit 0 = something rang
+python3 "${SKILL_DIR}/alerts.py" quote TSLA --write             # -> trader/prices.json
+python3 "${SKILL_DIR}/alerts.py" quote --holdings --write       # portfolio + plan tickers
+python3 "${SKILL_DIR}/alerts.py" list
+python3 "${SKILL_DIR}/alerts.py" reset tsla-plan-stop
 ```
 
 `--now "2026-10-19 15:55"` pins the clock (New York time); `--offline DIR`
@@ -105,8 +107,8 @@ holiday list is unknown.
 
 1. Right after trader-exit writes the plan, run `add --from-plan`. Confirm
    the three alerts back to the user: the stop, the target and the flat-by time.
-2. Run `check` while the trade is open: every few minutes from a Hermes
-   scheduled task or `/loop`. Each run fetches only the tickers in today's
+2. Run `check` while the trade is open: every few minutes from a scheduled
+   task or a loop command. Each run fetches only the tickers in today's
    rules and rings each alert once. A check reads the latest delayed quote;
    it is not a live feed, and a price can pass a level between two checks.
 3. Tell the user what rang in one line each. A stop or target alert means the
@@ -154,7 +156,7 @@ live, and never predicts where a price is going.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

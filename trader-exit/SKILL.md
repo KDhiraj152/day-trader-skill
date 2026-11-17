@@ -24,14 +24,16 @@ anything in the middle of a fast move. A stop is a plan, not a guarantee: a
 gap or a fast market can fill past it. Day trading loses most people money,
 and a neat plan does not change that.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/exit.py" plan                          # trader/entry.json: midpoint stop, 2R target
-python3 "${HERMES_SKILL_DIR}/exit.py" plan --stop or-mid --target 1R --write
-python3 "${HERMES_SKILL_DIR}/exit.py" plan --stop atr:1.5           # needs the session's bars (Yahoo or --offline)
-python3 "${HERMES_SKILL_DIR}/exit.py" plan --symbol TSLA --entry 364.18 --or-high 362.18 --or-low 354.47
-python3 "${HERMES_SKILL_DIR}/exit.py" show                          # the current trader/plan.json
+python3 "${SKILL_DIR}/exit.py" plan                          # trader/entry.json: midpoint stop, 2R target
+python3 "${SKILL_DIR}/exit.py" plan --stop or-mid --target 1R --write
+python3 "${SKILL_DIR}/exit.py" plan --stop atr:1.5           # needs the session's bars (Yahoo or --offline)
+python3 "${SKILL_DIR}/exit.py" plan --symbol TSLA --entry 364.18 --or-high 362.18 --or-low 354.47
+python3 "${SKILL_DIR}/exit.py" show                          # the current trader/plan.json
 ```
 
 Other flags: `--flat-by 15:55`, `--json`, `--now "2026-10-19 10:15"` (New
@@ -83,8 +85,8 @@ A level setup has no opening range to lean on, so it needs a stop you name.
 5. Say once that the stop is a plan, not a guarantee.
 6. Hand off to `/trader-timemachine` to replay the plan, then `/trader-budget`
    to size it to the max loss per trade. Offer `/trader-alerts` for the stop,
-   the target and the flat-by time. Hermes can keep `entry.py watch` running
-   in the background or on a `/loop` until a setup triggers, then come here.
+   the target and the flat-by time. Your agent can keep `entry.py watch` running
+   in the background or on a loop until a setup triggers, then come here.
 
 ## Example: the reel
 
@@ -126,7 +128,7 @@ make a plan pass, and never calls a stop a guarantee.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

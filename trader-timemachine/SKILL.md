@@ -27,16 +27,18 @@ rule on every past session. It is a simulation built from the stock's own
 recent bars, not a prediction. Day trading loses most people money, and a
 good-looking replay does not change that.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/timemachine.py" run                    # trader/plan.json, 10,000 replays, seed 19
-python3 "${HERMES_SKILL_DIR}/timemachine.py" run --write            # also save trader/timemachine.json
-python3 "${HERMES_SKILL_DIR}/timemachine.py" run --until 15:55      # end each replay at your flat-by time
-python3 "${HERMES_SKILL_DIR}/timemachine.py" run --json
-python3 "${HERMES_SKILL_DIR}/timemachine.py" run --symbol TSLA --date 2026-10-19 \
+python3 "${SKILL_DIR}/timemachine.py" run                    # trader/plan.json, 10,000 replays, seed 19
+python3 "${SKILL_DIR}/timemachine.py" run --write            # also save trader/timemachine.json
+python3 "${SKILL_DIR}/timemachine.py" run --until 15:55      # end each replay at your flat-by time
+python3 "${SKILL_DIR}/timemachine.py" run --json
+python3 "${SKILL_DIR}/timemachine.py" run --symbol TSLA --date 2026-10-19 \
     --entry 364.18 --stop 358.32 --target 370.04 --entry-time "10:15 AM"
-python3 "${HERMES_SKILL_DIR}/timemachine.py" chart --from           # ASCII fan chart of the saved run
+python3 "${SKILL_DIR}/timemachine.py" chart --from           # ASCII fan chart of the saved run
 ```
 
 Other flags: `--replays N`, `--seed N` (default 19), `--window N` (default 2
@@ -162,7 +164,7 @@ into the pool.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

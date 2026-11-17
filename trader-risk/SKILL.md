@@ -26,13 +26,15 @@ BLOCK is final for that order: it does not go to the user for a yes, and it
 does not go to the broker. Most people who day trade lose money. These limits
 keep each loss and each day's losses small. They do not make a trade win.
 
-`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md lives). Your
+agent sets it when it loads a skill; if it does not, substitute the folder's
+path.
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/check.py"                           # trader/ files; writes trader/state/risk.json
-python3 "${HERMES_SKILL_DIR}/check.py" --json
-python3 "${HERMES_SKILL_DIR}/check.py" --no-write                # look without recording
-python3 "${HERMES_SKILL_DIR}/check.py" --now "2026-10-19 10:15"  # pin the clock (New York time)
+python3 "${SKILL_DIR}/check.py"                           # trader/ files; writes trader/state/risk.json
+python3 "${SKILL_DIR}/check.py" --json
+python3 "${SKILL_DIR}/check.py" --no-write                # look without recording
+python3 "${SKILL_DIR}/check.py" --now "2026-10-19 10:15"  # pin the clock (New York time)
 ```
 
 ## What it reads and writes
@@ -166,7 +168,7 @@ treats a PASS as the user's yes.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on your agent's approval card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.
+- Broker keys live in environment variables or your agent's MCP config, never in the chat.

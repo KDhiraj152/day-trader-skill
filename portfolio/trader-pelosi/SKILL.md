@@ -29,8 +29,12 @@ information here: only public filings, read quickly. Say that every time.
 Tool in this folder (standard library Python; `pdftotext` from poppler is
 optional, to read the PDFs locally):
 
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md
+lives). Your agent sets it when it loads a skill; if it does not, substitute
+the folder's path.
+
 ```bash
-python3 "${HERMES_SKILL_DIR}/ptr.py" --help
+python3 "${SKILL_DIR}/ptr.py" --help
 ```
 
 ## What it reads and writes
@@ -60,9 +64,9 @@ python3 "${HERMES_SKILL_DIR}/ptr.py" --help
 ## Step 1: what has been filed
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/ptr.py" index --member pelosi
-python3 "${HERMES_SKILL_DIR}/ptr.py" index --since 2026-10-01        # every member
-python3 "${HERMES_SKILL_DIR}/ptr.py" index --member "Josh Gottheimer" --year 2025
+python3 "${SKILL_DIR}/ptr.py" index --member pelosi
+python3 "${SKILL_DIR}/ptr.py" index --since 2026-10-01        # every member
+python3 "${SKILL_DIR}/ptr.py" index --member "Josh Gottheimer" --year 2025
 ```
 
 `--member` takes a last name, "First Last" or "Last, First", and repeats.
@@ -71,7 +75,7 @@ python3 "${HERMES_SKILL_DIR}/ptr.py" index --member "Josh Gottheimer" --year 202
 ## Step 2: watch for new ones
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/ptr.py" new --member pelosi --read
+python3 "${SKILL_DIR}/ptr.py" new --member pelosi --read
 ```
 
 Shows only PTRs not seen at the last check (the first run shows the last 45
@@ -84,8 +88,8 @@ is plenty: run it with `/loop 1h` or a scheduled task.
 ## Step 3: read a report
 
 ```bash
-python3 "${HERMES_SKILL_DIR}/ptr.py" fetch 20035143
-python3 "${HERMES_SKILL_DIR}/ptr.py" parse ptr.txt --filed 2026-08-21 --json
+python3 "${SKILL_DIR}/ptr.py" fetch 20035143
+python3 "${SKILL_DIR}/ptr.py" parse ptr.txt --filed 2026-08-21 --json
 ```
 
 `fetch` saves the PDF and, if `pdftotext` is installed, prints the rows. If it
@@ -146,9 +150,8 @@ does not click it or automate it. The route:
 - Paper trading by default (`"paper": true` in `trader/config.json`).
 - Nothing places an order except `/trader-broker`, and only after
   `/trader-risk` passes AND the user types an explicit yes for that order in
-  the chat, AND the brokerage tool is set to "Needs approval" in Hermes
-  (Customize > Connectors > tool permissions) so Hermes own "Allow once /
-  Deny" card appears too. Never "Always allow" an order tool.
+  the chat, AND the brokerage tool is set to "Needs approval" in your agent's connector
+  settings, so its "Allow once / Deny" approval prompt appears too. Never "Always allow" an order tool.
 - No options, margin, shorting or leverage unless the config allows it and
   the user confirms.
 - Congressional trades are PUBLIC disclosures filed up to 45 days after the

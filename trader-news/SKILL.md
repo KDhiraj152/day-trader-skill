@@ -23,10 +23,14 @@ headline and a move sit side by side.
 
 Tool in this folder (standard library Python, no keys):
 
+`${SKILL_DIR}` below is this skill's folder (where this SKILL.md
+lives). Your agent sets it when it loads a skill; if it does not, substitute
+the folder's path.
+
 ```bash
-python3 "${HERMES_SKILL_DIR}/news.py"                         # watchlist + plan + portfolio
-python3 "${HERMES_SKILL_DIR}/news.py" --tickers TSLA NVDA --hours 12
-python3 "${HERMES_SKILL_DIR}/news.py" --no-sec --json
+python3 "${SKILL_DIR}/news.py"                         # watchlist + plan + portfolio
+python3 "${SKILL_DIR}/news.py" --tickers TSLA NVDA --hours 12
+python3 "${SKILL_DIR}/news.py" --no-sec --json
 ```
 
 ## What it reads and writes
@@ -61,7 +65,7 @@ python3 "${HERMES_SKILL_DIR}/news.py" --no-sec --json
 
 ## Steps
 
-1. Run the check: `python3 "${HERMES_SKILL_DIR}/news.py"`. Exit code 1 means
+1. Run the check: `python3 "${SKILL_DIR}/news.py"`. Exit code 1 means
    nothing new. `--all` shows items already seen, `--json` gives everything
    machine readable, `--dry-run` leaves the state alone.
 2. Read the items that matter: every `!` filing, anything tagged earnings,
@@ -73,8 +77,8 @@ python3 "${HERMES_SKILL_DIR}/news.py" --no-sec --json
    `/trader-exit`: an earnings date inside the trade, a halt, an offering.
    Never act on a headline alone.
 
-During the session: `/loop 15m /trader-news`, or a scheduled task each
-morning before the open.
+During the session: run the check every 15 minutes from your agent's loop or
+scheduling command, or a scheduled task each morning before the open.
 
 ## Example: the reel
 
