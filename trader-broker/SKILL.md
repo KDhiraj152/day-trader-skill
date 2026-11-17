@@ -5,10 +5,10 @@ description: >-
   default, never without your yes. Shows each order as a plain ticket (a
   bracket shows its stop-loss, take-profit and the max loss at the stop)
   plus the exact JSON for Alpaca's place_stock_order, records your yes word
-  for word, then Claude's own Allow once / Deny card asks again. Builds the
+  for word, then Hermes's own Allow once / Deny card asks again. Builds the
   sell ticket that closes a day trade by your flat-by time, records fills,
   and logs each trade's max loss so trader-risk can hold the daily limit.
-  Covers setting up Alpaca's official MCP server in Claude Desktop (paper by
+  Covers setting up Alpaca's official MCP server in Hermes Desktop (paper by
   default, keys in env vars, never in chat), the Interactive Brokers
   connector, and setting order tools to "Needs approval". Use when the user
   says "place the order", "buy it", "execute", "send it to my broker",
@@ -25,7 +25,7 @@ separate gates, every time, for every order:
 
 1. **trader-risk passed this exact order today** (matched by fingerprint).
 2. **The user typed an explicit yes for this one order** in the chat.
-3. **The user clicked Allow once** on Claude's own permission card, which
+3. **The user clicked Allow once** on Hermes's own permission card, which
    appears because the order tool is set to "Needs approval".
 
 Two yeses from the user, one PASS from the rules. No yes, no order.
@@ -55,20 +55,20 @@ is a real yes for that order, builds the flatten ticket, and keeps the log in
 | `trader/portfolio.json` | cash and shares, updated by `fill` and by `result --filled-qty` |
 | `trader/plan.json` | the flat-by time for `flatten` |
 
-## Setup A: Alpaca (official MCP server, Claude Desktop)
+## Setup A: Alpaca (official MCP server, Hermes Desktop)
 
 Alpaca's own server is github.com/alpacahq/alpaca-mcp-server (MIT). It runs on
-the user's computer inside Claude Desktop. It is not in Claude's connector
+the user's computer inside Hermes Desktop. It is not in Hermes connector
 directory. It trades on a **paper** account unless told otherwise. Checked
 against its source on 2026-10-20 (version 2.4.0).
 
 1. The user makes an Alpaca account and creates **paper trading** API keys in
    the Alpaca dashboard. Paper keys are separate from live keys.
 2. The user installs `uv` (it provides `uvx`), from docs.astral.sh/uv.
-3. In Claude Desktop: Settings > Developer > Edit Config. That opens
-   `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`,
-   Windows: `%APPDATA%\Claude\`). The user adds this block (also in
-   `claude_desktop_config.example.json` here) and types their own keys into the file:
+3. In Hermes Desktop: Settings > Developer > Edit Config. That opens
+   `hermes_desktop_config.json` (macOS: `~/Library/Application Support/Hermes/`,
+   Windows: `%APPDATA%\Hermes\`). The user adds this block (also in
+   `hermes_desktop_config.example.json` here) and types their own keys into the file:
 
 ```json
 {
@@ -93,7 +93,7 @@ against its source on 2026-10-20 (version 2.4.0).
    to delete that message and make new keys in the Alpaca dashboard.
    `ALPACA_PAPER_TRADE` is already true by default; writing it makes it
    visible. `ALPACA_TOOLSETS` is optional and hides the tools they do not need.
-4. Restart Claude Desktop.
+4. Restart Hermes Desktop.
 5. **Set the tool permissions.** Customize > Connectors (Settings > Connectors
    in older versions), open alpaca, and for each tool pick Always allow, Needs
    approval or Blocked:
@@ -108,11 +108,11 @@ against its source on 2026-10-20 (version 2.4.0).
    - read-only tools (`get_account_info`, `get_all_positions`, `get_open_position`,
      `get_orders`, `get_clock`, `get_stock_snapshot`, `get_stock_latest_quote`):
      Always allow is fine.
-6. Check it: ask Claude for the Alpaca account info (read only) and confirm
+6. Check it: ask Hermes for the Alpaca account info (read only) and confirm
    in the Alpaca dashboard that it is the paper account.
 
-In Claude Code instead of Claude Desktop, keep the order tool on ask in
-`.claude/settings.json`: `"permissions": {"ask": ["mcp__alpaca__place_stock_order"]}`,
+In Hermes instead of Hermes Desktop, keep the order tool on ask in
+`.hermes/settings.json`: `"permissions": {"ask": ["mcp__alpaca__place_stock_order"]}`,
 and never put an order tool in `allow`.
 
 **Bracket orders on Alpaca.** `place_stock_order` takes
@@ -124,13 +124,13 @@ gtc. After the entry fills, the stop-loss and the take-profit wait at the
 broker as two orders that cancel each other. They are day orders too, so they
 end at the close: one more reason to be flat by then.
 
-## Setup B: Interactive Brokers (connector in Claude's directory)
+## Setup B: Interactive Brokers (connector in Hermes directory)
 
-Interactive Brokers publishes a verified connector: claude.ai/directory/interactive-brokers
+Interactive Brokers publishes a verified connector: hermes-agent.nousresearch.com/directory/interactive-brokers
 (connector URL `https://api.ibkr.com/v1/api/mcp`). Add it from Customize >
 Connectors > Browse connectors and sign in to IBKR there, not in the chat.
-Its listing says Claude can draft trade instructions that are sent to the
-user's IBKR account for their review and approval, and that Claude never
+Its listing says Hermes can draft trade instructions that are sent to the
+user's IBKR account for their review and approval, and that Hermes never
 submits orders directly to the market. So with IBKR the final yes happens in
 IBKR as well. Set `"broker": "ibkr"` in `trader/config.json`. Set its tools
 that draft orders to Needs approval too.
@@ -146,7 +146,7 @@ that draft orders to Needs approval too.
    order (for example "sure", "yes to all", or a yes that names a different
    stock or amount). Ask again. Never turn a reply into a yes yourself.
 4. Only after "Recorded your yes", call `place_stock_order` with exactly the
-   JSON the ticket printed. Claude's card appears: Allow once or Deny.
+   JSON the ticket printed. Hermes card appears: Allow once or Deny.
 5. Record what happened: `ticket.py result --index N --status placed
    --broker-id <id> --filled-qty Q --filled-price P` (the fill from the
    response or `get_open_position`), or `--status denied`, or `--status failed`
@@ -181,13 +181,13 @@ ORDER 1 of 1, PAPER account, Alpaca
   max loss about $46.88 if the stop fills at 358.32 (it can fill worse in a fast market)
   why: opening-range breakout on TSLA: 8 shares, bound by your $50 max loss per trade (8 x 5.86 = $46.88 at the stop)
   READY: trader-risk PASS, waiting for your yes
-  Claude will call place_stock_order with exactly:
+  Hermes will call place_stock_order with exactly:
     {"symbol": "TSLA", "side": "buy", "qty": "8", "type": "market", "time_in_force": "day",
      "order_class": "bracket", "take_profit_limit_price": "370.04", "stop_loss_stop_price": "358.32"}
 ```
 
-The user replies "yes". Claude records it, calls `place_stock_order`, and the
-card reads "Claude wants to use Place stock order" with that JSON and two
+The user replies "yes". Hermes records it, calls `place_stock_order`, and the
+card reads "Hermes wants to use Place stock order" with that JSON and two
 buttons: Allow once, Deny. Allow once sends it to the paper account. The
 `why` and the plan stay in the file; they are never sent.
 
@@ -206,7 +206,7 @@ buttons: Allow once, Deny. Allow once sends it to the paper account. The
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Claude's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Claude Desktop config, never in the chat.
+- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.

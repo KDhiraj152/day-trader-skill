@@ -83,7 +83,7 @@ A level setup has no opening range to lean on, so it needs a stop you name.
 5. Say once that the stop is a plan, not a guarantee.
 6. Hand off to `/trader-timemachine` to replay the plan, then `/trader-budget`
    to size it to the max loss per trade. Offer `/trader-alerts` for the stop,
-   the target and the flat-by time. Claude can keep `entry.py watch` running
+   the target and the flat-by time. Hermes can keep `entry.py watch` running
    in the background or on a `/loop` until a setup triggers, then come here.
 
 ## Example: the reel
@@ -126,7 +126,7 @@ make a plan pass, and never calls a stop a guarantee.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Claude's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Claude Desktop config, never in the chat.
+- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.

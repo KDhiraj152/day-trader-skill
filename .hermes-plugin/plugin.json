@@ -1,0 +1,22 @@
+{
+  "name": "day-trader-skill",
+  "description": "11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
+  "version": "2.0.0",
+  "author": {
+    "name": "K Dhiraj",
+    "url": "https://github.com/KDhiraj152"
+  },
+  "homepage": "https://github.com/KDhiraj152/day-trader-skill",
+  "repository": "https://github.com/KDhiraj152/day-trader-skill",
+  "license": "MIT",
+  "keywords": [
+    "hermes-plugin",
+    "hermes-skills",
+    "day-trading",
+    "stock-market",
+    "backtesting",
+    "opening-range-breakout",
+    "paper-trading"
+  ],
+  "skills": "./"
+}

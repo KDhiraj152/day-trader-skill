@@ -79,7 +79,7 @@ day bar by bar without waiting.
    `/trader-scanner`. Check `/trader-news` for it first.
 2. Run `entry.py check SYMBOL`. Tell the user the status in one line:
    waiting and how far, triggered at what time and price, or expired.
-3. To wait for it, Claude can run `entry.py watch SYMBOL --until 15:30` in
+3. To wait for it, Hermes can run `entry.py watch SYMBOL --until 15:30` in
    the background, or `entry.py check SYMBOL --write` on a `/loop` every 5
    minutes. `watch` wakes just after each bar closes, prints one line per
    bar, and exits 0 on the trigger (it writes `trader/entry.json`) or 1 when
@@ -138,7 +138,7 @@ watch: nobody is there to say yes.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Claude's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Claude Desktop config, never in the chat.
+- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.

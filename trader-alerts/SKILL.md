@@ -105,7 +105,7 @@ holiday list is unknown.
 
 1. Right after trader-exit writes the plan, run `add --from-plan`. Confirm
    the three alerts back to the user: the stop, the target and the flat-by time.
-2. Run `check` while the trade is open: every few minutes from a Claude
+2. Run `check` while the trade is open: every few minutes from a Hermes
    scheduled task or `/loop`. Each run fetches only the tickers in today's
    rules and rings each alert once. A check reads the latest delayed quote;
    it is not a live feed, and a price can pass a level between two checks.
@@ -154,7 +154,7 @@ live, and never predicts where a price is going.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Claude's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Claude Desktop config, never in the chat.
+- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.

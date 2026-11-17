@@ -9,7 +9,7 @@ from _load import ROOT
 SKILLS = ["trader-scanner", "trader-news", "trader-entry", "trader-exit", "trader-timemachine",
           "trader-risk", "trader-budget", "trader-broker", "trader-alerts", "trader-analyst",
           "trader-pelosi"]
-ABOUT = ("11 Claude skills for day trading: scan thousands of charts, track breaking news, time every "
+ABOUT = ("11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every "
          "entry and exit, and replay every outcome before you risk a dollar.")
 # skills on the way to an order carry the safety block
 ORDER_PATH = ["trader-scanner", "trader-entry", "trader-exit", "trader-timemachine", "trader-budget",
@@ -40,7 +40,7 @@ class Repo(unittest.TestCase):
 
     def test_root_matches_the_reel(self):
         root = sorted(d for d in os.listdir(ROOT) if not d.startswith(".git"))
-        self.assertEqual(root, sorted([".claude-plugin", "LICENSE", "README.md", "tests"] + SKILLS))
+        self.assertEqual(root, sorted([".hermes-plugin", "LICENSE", "README.md", "tests"] + SKILLS))
 
     def test_frontmatter_name_and_description(self):
         for s in SKILLS:
@@ -58,12 +58,12 @@ class Repo(unittest.TestCase):
             self.assertIn("yes", low, s)
 
     def test_plugin_manifest_points_at_the_root_skills(self):
-        with open(os.path.join(ROOT, ".claude-plugin", "plugin.json")) as fh:
+        with open(os.path.join(ROOT, ".hermes-plugin", "plugin.json")) as fh:
             plugin = json.load(fh)
         self.assertEqual(plugin["name"], "day-trader-skill")
         self.assertEqual(plugin["skills"], "./")
         self.assertEqual(plugin["description"], ABOUT)
-        with open(os.path.join(ROOT, ".claude-plugin", "marketplace.json")) as fh:
+        with open(os.path.join(ROOT, ".hermes-plugin", "marketplace.json")) as fh:
             market = json.load(fh)
         self.assertEqual(market["name"], "day-trader-skill")
         self.assertEqual(market["plugins"][0]["name"], "day-trader-skill")
@@ -73,8 +73,8 @@ class Repo(unittest.TestCase):
             readme = " ".join(fh.read().split())
         self.assertTrue(readme.startswith("# The Day Trader skill"))
         for line in (ABOUT,
-                     "https://github.com/Jakeschincariol/day-trader-skill install skill",
-                     "/plugin marketplace add Jakeschincariol/day-trader-skill",
+                     "https://github.com/KDhiraj152/day-trader-skill install skill",
+                     "/plugin marketplace add KDhiraj152/day-trader-skill",
                      "/plugin install day-trader-skill@day-trader-skill",
                      "## Fine print"):
             self.assertIn(line, readme)

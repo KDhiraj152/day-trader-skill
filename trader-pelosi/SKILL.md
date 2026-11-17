@@ -148,8 +148,8 @@ does not click it or automate it. The route:
 - Paper trading by default (`"paper": true` in `trader/config.json`).
 - Nothing places an order except `/trader-broker`, and only after
   `/trader-risk` passes AND the user types an explicit yes for that order in
-  the chat, AND the brokerage tool is set to "Needs approval" in Claude
-  (Customize > Connectors > tool permissions) so Claude's own "Allow once /
+  the chat, AND the brokerage tool is set to "Needs approval" in Hermes
+  (Customize > Connectors > tool permissions) so Hermes's own "Allow once /
   Deny" card appears too. Never "Always allow" an order tool.
 - No options, margin, shorting or leverage unless the config allows it and
   the user confirms.

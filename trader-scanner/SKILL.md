@@ -168,7 +168,7 @@ Fetched 233 of 234 charts (1 failed or had no data); 231 usable; 95 candidates, 
 The reel's wall had no price floor (AMC at $2.97 is one of the 42), hence
 `--min-price 0`; with the default $5 floor it is 41. TSLA's range is the 9:30
 to 9:40 bars, high 362.18, low 354.47; the 10:10 bar closed at 364.18, 0.55 %
-over the high, at 10:15 AM. The user picks TSLA and Claude hands it to
+over the high, at 10:15 AM. The user picks TSLA and Hermes hands it to
 `/trader-news TSLA`, then `/trader-entry TSLA`. In the reel the universe was
 5,259 US stocks; this tool's rule gives 5,943 on the same files.
 
@@ -197,7 +197,7 @@ never calls data real time, and never promises that a setup works.
 - Paper trading by default (`"paper": true`). Going live is the user's own decision, in their own config.
 - Nothing in this pack places an order except trader-broker, and only when all three hold: trader-risk
   passed that exact order today, the user typed an explicit yes for that one order in the chat, and the
-  user clicked Allow once on Claude's own card because the order tool is set to "Needs approval"
+  user clicked Allow once on Hermes's own card because the order tool is set to "Needs approval"
   (Customize > Connectors > tool permissions). Never set an order tool to "Always allow".
 - No options, margin, short selling or leverage unless the config allows it and the user confirms.
-- Broker keys live in environment variables or the Claude Desktop config, never in the chat.
+- Broker keys live in environment variables or the Hermes Desktop config, never in the chat.

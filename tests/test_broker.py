@@ -95,7 +95,7 @@ class TicketShape(unittest.TestCase):
 
 class DesktopConfig(unittest.TestCase):
     def test_example_is_paper_with_placeholder_keys(self):
-        with open(os.path.join(ROOT, "trader-broker", "claude_desktop_config.example.json")) as fh:
+        with open(os.path.join(ROOT, "trader-broker", "hermes_desktop_config.example.json")) as fh:
             server = json.load(fh)["mcpServers"]["alpaca"]
         self.assertEqual((server["command"], server["args"]), ("uvx", ["alpaca-mcp-server"]))
         self.assertEqual(server["env"]["ALPACA_PAPER_TRADE"], "true")

@@ -1,6 +1,6 @@
 # The Day Trader skill
 
-11 Claude skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.
+11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.
 
 Free, MIT, no signup, no API key. The tools are plain Python that read free
 public data: Yahoo Finance charts, Nasdaq Trader's symbol lists, SEC EDGAR
@@ -23,32 +23,32 @@ an order on its own. Paper trading is the default.
 
 ## Install
 
-Paste this into Claude:
+Paste this into Hermes:
 
 ```
-https://github.com/Jakeschincariol/day-trader-skill
+https://github.com/KDhiraj152/day-trader-skill
 
 install skill
 ```
 
-Or as a plugin, in Claude Code:
+Or as a plugin, in Hermes:
 
 ```
-/plugin marketplace add Jakeschincariol/day-trader-skill
+/plugin marketplace add KDhiraj152/day-trader-skill
 /plugin install day-trader-skill@day-trader-skill
 ```
 
-Claude Code namespaces plugin skills, so installed as a plugin they show up as
+Hermes namespaces plugin skills, so installed as a plugin they show up as
 `/day-trader-skill:trader-scanner` and so on. Copy the folders instead if you want
 plain `/trader-scanner`:
 
 ```bash
-git clone https://github.com/Jakeschincariol/day-trader-skill.git
-cp -r day-trader-skill/trader-* ~/.claude/skills/
+git clone https://github.com/KDhiraj152/day-trader-skill.git
+cp -r day-trader-skill/trader-* ~/.hermes/skills/
 ```
 
 Project-local instead of global: copy the same folders into your repo's
-`.claude/skills/`. No Claude Code at all? Paste any single `SKILL.md` at the
+`.hermes/skills/`. No Hermes at all? Paste any single `SKILL.md` at the
 top of a chat and it runs as a mode. You lose the Python tools, but the method
 works.
 
@@ -114,8 +114,8 @@ An example, the trade in the reel: Tesla, Monday October 19 2026, real data.
    loss limit, trades per day, reward to risk, the entry window, position
    size and cash. PASS or BLOCK, with the reason.
 8. **`/trader-broker`** shows you the ticket in plain words. You type yes for
-   that exact order. Claude calls your brokerage connector (Alpaca's MCP
-   server, paper account by default), and Claude's own "Allow once / Deny"
+   that exact order. Hermes calls your brokerage connector (Alpaca's MCP
+   server, paper account by default), and Hermes's own "Allow once / Deny"
    card asks you one more time.
 9. **`/trader-alerts`** rings on the stop, the target and at 3:55 PM to
    flatten whatever is still open.
@@ -161,8 +161,8 @@ yourself, and talk to a licensed professional if you need advice.
 
 **No trade goes through until you say yes.** Only `/trader-broker` can lead to
 an order, and only after `/trader-risk` passes that exact order and you type
-yes for it in the chat. Set your brokerage tool to "Needs approval" in Claude
-(Customize, Connectors, tool permissions), never "Always allow", so Claude's
+yes for it in the chat. Set your brokerage tool to "Needs approval" in Hermes
+(Customize, Connectors, tool permissions), never "Always allow", so Hermes
 own "Allow once / Deny" card is a second check. No options, margin, short
 selling or leverage unless you turn them on.
 
@@ -206,11 +206,11 @@ trader-exit/        SKILL.md, exit.py
 trader-timemachine/ SKILL.md, timemachine.py
 trader-risk/        SKILL.md, check.py
 trader-budget/      SKILL.md, size.py, config.example.json, targets.example.json
-trader-broker/      SKILL.md, ticket.py, claude_desktop_config.example.json
+trader-broker/      SKILL.md, ticket.py, hermes_desktop_config.example.json
 trader-alerts/      SKILL.md, alerts.py, alerts.example.json
 trader-analyst/     SKILL.md, facts.py, metrics.example.json
 trader-pelosi/      SKILL.md, ptr.py
 tests/              unittest suite + offline fixtures
 ```
 
-MIT. Made by [Jake Schincariol](https://opusjake.ai).
+MIT. Made by [K Dhiraj](https://github.com/KDhiraj152).

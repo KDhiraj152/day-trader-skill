@@ -16,7 +16,7 @@ Where the data comes from:
     (a ZIP with <YEAR>FD.xml: one <Member> per filing, FilingType P = PTR).
   - Each PTR: https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/<YEAR>/<DocID>.pdf
   - Reading a PDF needs `pdftotext` (poppler) if you want rows from this tool.
-    Without it, the tool prints the PDF path and Claude reads the PDF itself.
+    Without it, the tool prints the PDF path and Hermes reads the PDF itself.
 
 What a PTR is, and is not:
   - It is a PUBLIC disclosure under the STOCK Act, due within 30 days of the
@@ -48,7 +48,7 @@ import zipfile
 INDEX_URL = "https://disclosures-clerk.house.gov/public_disc/financial-pdfs/%d%s.zip"
 PTR_URL = "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/%d/%s.pdf"
 FD_URL = "https://disclosures-clerk.house.gov/public_disc/financial-pdfs/%d/%s.pdf"
-UA = "day-trader-skill/2.0 (+https://github.com/Jakeschincariol/day-trader-skill)"
+UA = "day-trader-skill/2.0 (+https://github.com/KDhiraj152/day-trader-skill)"
 FILING_TYPES = {
     "P": "Periodic Transaction Report", "O": "Annual report", "A": "Amendment",
     "C": "Candidate report", "X": "Extension", "T": "Termination report",
@@ -499,7 +499,7 @@ def _run(args):
         path, report = _fetch_and_read(args.doc_id, args.year, args.pdf_dir, args.filed)
         if report is None:
             print("Saved %s. pdftotext is not installed, so read the PDF directly "
-                  "(Claude can open it), or install poppler (brew install poppler)." % path)
+                  "(Hermes can open it), or install poppler (brew install poppler)." % path)
             return 0
         if args.json:
             print(json.dumps(report, indent=2))
