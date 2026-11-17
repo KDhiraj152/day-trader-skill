@@ -179,16 +179,22 @@ class Fetcher(object):
         self._last = time.time()
         headers = {"User-Agent": self.sec_ua if sec else BROWSER_UA, "Accept-Encoding": "gzip"}
         req = urllib.request.Request(url, headers=headers)
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data = resp.read()
-                if resp.headers.get("Content-Encoding") == "gzip":
-                    data = gzip.decompress(data)
-                return data
-        except urllib.error.HTTPError as exc:
-            raise NewsError("HTTP %s for %s" % (exc.code, url))
-        except urllib.error.URLError as exc:
-            raise NewsError("could not reach %s: %s" % (url, exc.reason))
+        # SEC rate-limits (429) and hiccups (5xx): one retry after a short
+        # pause, the same rule alerts.py applies to Yahoo
+        for attempt in (0, 1):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = resp.read()
+                    if resp.headers.get("Content-Encoding") == "gzip":
+                        data = gzip.decompress(data)
+                    return data
+            except urllib.error.HTTPError as exc:
+                if attempt == 0 and (exc.code == 429 or exc.code >= 500):
+                    time.sleep(2)
+                    continue
+                raise NewsError("HTTP %s for %s" % (exc.code, url))
+            except urllib.error.URLError as exc:
+                raise NewsError("could not reach %s: %s" % (url, exc.reason))
 
 
 def yahoo_symbol(ticker):

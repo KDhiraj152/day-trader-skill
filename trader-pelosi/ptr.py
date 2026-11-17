@@ -40,6 +40,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -81,13 +82,18 @@ def iso(mdy):
 
 def download(url, timeout=60):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return resp.read()
-    except urllib.error.HTTPError as exc:
-        raise PtrError("HTTP %s for %s" % (exc.code, url))
-    except urllib.error.URLError as exc:
-        raise PtrError("could not reach %s: %s" % (url, exc.reason))
+    # the Clerk rate-limits: a 429 or a 5xx gets one retry after a short pause
+    for attempt in (0, 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.read()
+        except urllib.error.HTTPError as exc:
+            if attempt == 0 and (exc.code == 429 or exc.code >= 500):
+                time.sleep(2)
+                continue
+            raise PtrError("HTTP %s for %s" % (exc.code, url))
+        except urllib.error.URLError as exc:
+            raise PtrError("could not reach %s: %s" % (url, exc.reason))
 
 
 def read_index_bytes(data):

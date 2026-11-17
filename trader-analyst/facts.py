@@ -108,18 +108,24 @@ class Fetcher(object):
         self._last = time.time()
         req = urllib.request.Request(url, headers={"User-Agent": self.ua,
                                                    "Accept-Encoding": "gzip"})
-        try:
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                data = resp.read()
-                if resp.headers.get("Content-Encoding") == "gzip":
-                    data = gzip.decompress(data)
-        except urllib.error.HTTPError as exc:
-            if exc.code == 404:
-                raise FactsError("SEC has no data at %s (no XBRL filings for this CIK?)" % url)
-            raise FactsError("HTTP %s for %s" % (exc.code, url))
-        except urllib.error.URLError as exc:
-            raise FactsError("could not reach %s: %s" % (url, exc.reason))
-        return json.loads(data.decode("utf-8"))
+        # SEC rate-limits (429) and hiccups (5xx): one retry after a short
+        # pause, the same rule alerts.py applies to Yahoo
+        for attempt in (0, 1):
+            try:
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    data = resp.read()
+                    if resp.headers.get("Content-Encoding") == "gzip":
+                        data = gzip.decompress(data)
+                    return json.loads(data.decode("utf-8"))
+            except urllib.error.HTTPError as exc:
+                if attempt == 0 and (exc.code == 429 or exc.code >= 500):
+                    time.sleep(2)
+                    continue
+                if exc.code == 404:
+                    raise FactsError("SEC has no data at %s (no XBRL filings for this CIK?)" % url)
+                raise FactsError("HTTP %s for %s" % (exc.code, url))
+            except urllib.error.URLError as exc:
+                raise FactsError("could not reach %s: %s" % (url, exc.reason))
 
 
 # ---------------------------------------------------------------- facts
