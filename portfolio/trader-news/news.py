@@ -47,7 +47,7 @@ SEC_FEED = ("https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=%s&t
             "&dateb=&owner=include&count=%d&output=atom")
 TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 PLACEHOLDER = "you@example.com"
-BROWSER_UA = "Mozilla/5.0 (compatible; trader-skill/1.0; +https://github.com/KDhiraj152/trader-skill)"
+BROWSER_UA = "Mozilla/5.0 (compatible; trader-skill/2.0; +https://github.com/KDhiraj152/day-trader-skill)"
 KEEP_DAYS = 30
 
 ITEMS_8K = {

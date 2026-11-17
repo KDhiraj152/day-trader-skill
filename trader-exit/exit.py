@@ -115,6 +115,9 @@ def eastern_offset(utc):
 
 
 def to_eastern(utc):
+    """Aware or naive UTC -> naive New York wall-clock time."""
+    if utc.tzinfo is not None:
+        utc = utc.astimezone(datetime.timezone.utc)
     return utc.replace(tzinfo=None) + datetime.timedelta(hours=eastern_offset(utc))
 
 
@@ -184,9 +187,20 @@ def ampm(t):
     return "%d:%02d %s" % (h, t.minute, "AM" if t.hour < 12 else "PM")
 
 
+def trading_day(d):
+    """(is_trading_day, reason). Weekends and the NYSE holiday list."""
+    if d.weekday() >= 5:
+        return False, "weekend"
+    name = NYSE_HOLIDAYS.get(d.isoformat())
+    if name:
+        return False, "NYSE holiday: " + name
+    return True, ""
+
+
 def session(d):
     """(open_time, close_time) in New York time, or None if closed all day."""
-    if d.weekday() >= 5 or d.isoformat() in NYSE_HOLIDAYS:
+    ok, _ = trading_day(d)
+    if not ok:
         return None
     return OPEN, (EARLY if d.isoformat() in NYSE_EARLY_CLOSE else CLOSE)
 

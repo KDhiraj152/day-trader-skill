@@ -112,6 +112,9 @@ def eastern_offset(utc):
 
 
 def to_eastern(utc):
+    """Aware or naive UTC -> naive New York wall-clock time."""
+    if utc.tzinfo is not None:
+        utc = utc.astimezone(datetime.timezone.utc)
     return utc.replace(tzinfo=None) + datetime.timedelta(hours=eastern_offset(utc))
 
 

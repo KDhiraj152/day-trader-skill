@@ -159,6 +159,9 @@ def eastern_offset(utc):
 
 
 def to_eastern(utc):
+    """Aware or naive UTC -> naive New York wall-clock time."""
+    if utc.tzinfo is not None:
+        utc = utc.astimezone(datetime.timezone.utc)
     return utc.replace(tzinfo=None) + datetime.timedelta(hours=eastern_offset(utc))
 
 
@@ -853,7 +856,15 @@ def cmd_universe(a):
             try:
                 texts[fname] = http_get(NASDAQ_URL + fname, timeout=60)
             except urllib.error.HTTPError as e:
-                raise ScanError("nasdaqtrader.com answered HTTP %d for %s" % (e.code, fname))
+                if e.code == 429 or e.code >= 500:
+                    # one retry after a short pause, like the other fetchers
+                    time.sleep(2)
+                    try:
+                        texts[fname] = http_get(NASDAQ_URL + fname, timeout=60)
+                    except urllib.error.HTTPError as e2:
+                        raise ScanError("nasdaqtrader.com answered HTTP %d for %s" % (e2.code, fname))
+                else:
+                    raise ScanError("nasdaqtrader.com answered HTTP %d for %s" % (e.code, fname))
             except (urllib.error.URLError, OSError) as e:
                 raise ScanError("could not reach nasdaqtrader.com: %s" % getattr(e, "reason", e))
     kept, counts, created = build_universe(texts)
