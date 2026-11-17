@@ -20,12 +20,12 @@ written by trader-budget, trader-rebalance or trader-tax passes through it.
 A BLOCK is final for that order: it does not go to the user for a yes, and
 it does not go to the broker.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/check.py"             # trader/ files; writes trader/state/risk.json
-python3 "${CLAUDE_SKILL_DIR}/check.py" --json
-python3 "${CLAUDE_SKILL_DIR}/check.py" --no-write  # look without recording
+python3 "${HERMES_SKILL_DIR}/check.py"             # trader/ files; writes trader/state/risk.json
+python3 "${HERMES_SKILL_DIR}/check.py" --json
+python3 "${HERMES_SKILL_DIR}/check.py" --no-write  # look without recording
 ```
 
 ## What it reads and writes

@@ -22,7 +22,7 @@ with the SEC, lines them up quarter by quarter, and says plainly what changed.
 Tool in this folder (standard library Python, no keys):
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/facts.py" --help
+python3 "${HERMES_SKILL_DIR}/facts.py" --help
 ```
 
 It needs the SEC User-Agent (`sec_user_agent` in `trader/config.json`, or
@@ -65,8 +65,8 @@ email. It refuses to call SEC without one.
    `trader/targets.json`):
 
    ```bash
-   python3 "${CLAUDE_SKILL_DIR}/facts.py" AAPL
-   python3 "${CLAUDE_SKILL_DIR}/facts.py" AAPL AXP GOOGL KO BAC --metrics trader/metrics.json
+   python3 "${HERMES_SKILL_DIR}/facts.py" AAPL
+   python3 "${HERMES_SKILL_DIR}/facts.py" AAPL AXP GOOGL KO BAC --metrics trader/metrics.json
    ```
 
    `--quarters 8` shows two years, `--json` everything machine-readable,

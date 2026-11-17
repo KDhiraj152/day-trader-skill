@@ -93,6 +93,20 @@ class Repo(unittest.TestCase):
                 self.assertNotIn("\u2014", text, rel)
             self.assertNotIn("jakeschincariol" + "@" + "gmail.com", text, rel)  # built, so this file passes too
 
+    def test_license_says_k_dhiraj(self):
+        with open(os.path.join(ROOT, "LICENSE"), encoding="utf-8") as fh:
+            license_text = fh.read()
+        self.assertIn("Copyright (c) 2026 K Dhiraj", license_text)
+        # nobody else's name in the license or the credits
+        for path in every_text_file():
+            rel = os.path.relpath(path, ROOT)
+            if rel.startswith(os.path.join("tests", "fixtures")) or rel == os.path.relpath(__file__, ROOT):
+                continue  # fixtures are real data; this test file names the string it guards against
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                text = fh.read()
+            self.assertNotIn("Jake", text, rel)
+            self.assertNotIn("Schincariol", text, rel)
+
     def test_no_v1_only_skill_is_left_behind(self):
         for path in every_text_file():
             rel = os.path.relpath(path, ROOT)

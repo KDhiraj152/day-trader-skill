@@ -19,13 +19,13 @@ The Budget Manager turns "copy this portfolio" into "buy exactly this much of
 each", inside rules the user sets once. It writes proposals only. trader-risk
 checks them and trader-broker asks the user yes or no for each one.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/size.py"                       # trader/targets.json + trader/config.json
-python3 "${CLAUDE_SKILL_DIR}/size.py" --budget 5000 --write # write trader/orders.json
-python3 "${CLAUDE_SKILL_DIR}/size.py" --whole-shares --prices trader/prices.json
-python3 "${CLAUDE_SKILL_DIR}/size.py" --weights AAPL=22.04,AXP=17.14,GOOGL=12.62 --json
+python3 "${HERMES_SKILL_DIR}/size.py"                       # trader/targets.json + trader/config.json
+python3 "${HERMES_SKILL_DIR}/size.py" --budget 5000 --write # write trader/orders.json
+python3 "${HERMES_SKILL_DIR}/size.py" --whole-shares --prices trader/prices.json
+python3 "${HERMES_SKILL_DIR}/size.py" --weights AAPL=22.04,AXP=17.14,GOOGL=12.62 --json
 ```
 
 ## What it reads and writes
@@ -53,7 +53,7 @@ If `trader/config.json` does not exist, copy `config.example.json` into
 ## Step 2: size it
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/size.py" --write
+python3 "${HERMES_SKILL_DIR}/size.py" --write
 ```
 
 The maths, in order: the cash buffer comes off the top; the weights are

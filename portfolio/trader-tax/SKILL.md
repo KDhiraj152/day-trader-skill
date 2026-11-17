@@ -20,15 +20,15 @@ blind. It never decides what is right for the user's taxes. **This is not tax
 advice**: a tax professional decides what applies to them. Say that once,
 early, in every answer that uses this skill.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/lots.py" report --lots              # every lot, gain or loss, term
-python3 "${CLAUDE_SKILL_DIR}/lots.py" sell KO 2 --price 90.11    # what a sale would realize (FIFO)
-python3 "${CLAUDE_SKILL_DIR}/lots.py" sell KO 2 --method specific --lots KO-2
-python3 "${CLAUDE_SKILL_DIR}/lots.py" harvest --min-loss 100     # candidates, with wash-sale checks
-python3 "${CLAUDE_SKILL_DIR}/lots.py" harvest --min-loss 100 --write
-python3 "${CLAUDE_SKILL_DIR}/lots.py" wash KO                    # is buying KO today a wash sale?
+python3 "${HERMES_SKILL_DIR}/lots.py" report --lots              # every lot, gain or loss, term
+python3 "${HERMES_SKILL_DIR}/lots.py" sell KO 2 --price 90.11    # what a sale would realize (FIFO)
+python3 "${HERMES_SKILL_DIR}/lots.py" sell KO 2 --method specific --lots KO-2
+python3 "${HERMES_SKILL_DIR}/lots.py" harvest --min-loss 100     # candidates, with wash-sale checks
+python3 "${HERMES_SKILL_DIR}/lots.py" harvest --min-loss 100 --write
+python3 "${HERMES_SKILL_DIR}/lots.py" wash KO                    # is buying KO today a wash sale?
 ```
 
 ## What it reads and writes

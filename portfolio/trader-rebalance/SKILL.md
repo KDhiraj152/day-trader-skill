@@ -21,13 +21,13 @@ that drifted too far and proposes the trades that bring them back. It writes
 proposals only: trader-risk checks them and trader-broker asks the user yes
 or no for each one.
 
-`${CLAUDE_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
+`${HERMES_SKILL_DIR}` below is this skill's folder (where this SKILL.md lives).
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/rebalance.py"                    # the drift table, no files written
-python3 "${CLAUDE_SKILL_DIR}/rebalance.py" --band 5 --write   # proposals -> trader/orders.json
-python3 "${CLAUDE_SKILL_DIR}/rebalance.py" --sell-untracked   # also sell holdings not in the targets
-python3 "${CLAUDE_SKILL_DIR}/rebalance.py" --json
+python3 "${HERMES_SKILL_DIR}/rebalance.py"                    # the drift table, no files written
+python3 "${HERMES_SKILL_DIR}/rebalance.py" --band 5 --write   # proposals -> trader/orders.json
+python3 "${HERMES_SKILL_DIR}/rebalance.py" --sell-untracked   # also sell holdings not in the targets
+python3 "${HERMES_SKILL_DIR}/rebalance.py" --json
 ```
 
 ## What it reads and writes

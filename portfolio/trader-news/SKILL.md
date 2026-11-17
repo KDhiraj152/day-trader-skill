@@ -21,7 +21,7 @@ first for each of your stocks and tells you only what is new.
 Tool in this folder (standard library Python, no keys):
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/news.py" --help
+python3 "${HERMES_SKILL_DIR}/news.py" --help
 ```
 
 ## What it reads and writes
@@ -59,8 +59,8 @@ python3 "${CLAUDE_SKILL_DIR}/news.py" --help
 1. Run the check:
 
    ```bash
-   python3 "${CLAUDE_SKILL_DIR}/news.py"
-   python3 "${CLAUDE_SKILL_DIR}/news.py" --tickers AAPL AXP GOOGL KO BAC --hours 24
+   python3 "${HERMES_SKILL_DIR}/news.py"
+   python3 "${HERMES_SKILL_DIR}/news.py" --tickers AAPL AXP GOOGL KO BAC --hours 24
    ```
 
    Exit code 1 means nothing new. `--all` shows items already seen,

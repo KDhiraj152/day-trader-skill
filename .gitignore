@@ -1,0 +1,9 @@
+# Python build artifacts
+__pycache__/
+*.pyc
+
+# Local runtime state the skills write (trader/ work folders)
+trader/
+
+# OS noise
+.DS_Store

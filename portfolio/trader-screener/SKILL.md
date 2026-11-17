@@ -21,7 +21,7 @@ pass and every fail comes with the number and the threshold.
 Tool in this folder (standard library Python, no network):
 
 ```bash
-python3 "${CLAUDE_SKILL_DIR}/screen.py" --help
+python3 "${HERMES_SKILL_DIR}/screen.py" --help
 ```
 
 ## What it reads and writes
@@ -66,7 +66,7 @@ weighted average.
 3. Run the screen:
 
    ```bash
-   python3 "${CLAUDE_SKILL_DIR}/screen.py" trader/metrics.json --rules trader/rules.json \
+   python3 "${HERMES_SKILL_DIR}/screen.py" trader/metrics.json --rules trader/rules.json \
      --prices trader/prices.json --out trader/shortlist.json
    ```
 
