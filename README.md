@@ -206,7 +206,8 @@ trader-broker/      SKILL.md, ticket.py, hermes_desktop_config.example.json
 trader-alerts/      SKILL.md, alerts.py, alerts.example.json
 trader-analyst/     SKILL.md, facts.py, metrics.example.json
 trader-pelosi/      SKILL.md, ptr.py
-tests/              unittest suite + offline fixtures
+portfolio/          the v1 basket: copycat, screener, tax, rebalance, plus the same pack as above
+tests/              unittest suite + offline fixtures, for both the pack and the basket
 ```
 
 MIT. Made by [K Dhiraj](https://github.com/KDhiraj152).
