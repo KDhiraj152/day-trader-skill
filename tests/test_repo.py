@@ -42,7 +42,9 @@ class Repo(unittest.TestCase):
         self.assertEqual(found, sorted(SKILLS))
 
     def test_root_matches_the_reel(self):
-        root = sorted(d for d in os.listdir(ROOT) if not d.startswith(".git"))
+        # trader/ is the runtime folder the skills write into (gitignored): it
+        # appears the moment anyone runs the pack from this checkout
+        root = sorted(d for d in os.listdir(ROOT) if d not in (".git", ".gitignore", "trader"))
         self.assertEqual(root, sorted([".hermes-plugin", "LICENSE", "README.md", "tests", "portfolio"] + SKILLS))
 
     def test_frontmatter_name_and_description(self):
