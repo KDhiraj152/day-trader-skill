@@ -9,11 +9,14 @@ from _load import ROOT
 SKILLS = ["trader-scanner", "trader-news", "trader-entry", "trader-exit", "trader-timemachine",
           "trader-risk", "trader-budget", "trader-broker", "trader-alerts", "trader-analyst",
           "trader-pelosi"]
+# portfolio basket (v1 skills moved here)
+PORTFOLIO_SKILLS = ["trader-copycat", "trader-screener", "trader-tax", "trader-rebalance"]
 ABOUT = ("11 Hermes skills for day trading: scan thousands of charts, track breaking news, time every "
          "entry and exit, and replay every outcome before you risk a dollar.")
 # skills on the way to an order carry the safety block
 ORDER_PATH = ["trader-scanner", "trader-entry", "trader-exit", "trader-timemachine", "trader-budget",
               "trader-pelosi", "trader-risk", "trader-broker", "trader-alerts"]
+# v1-only skills that should not appear in daytrader files (but are in portfolio/)
 V1_ONLY = ["trader-copycat", "trader-screener", "trader-tax", "trader-rebalance"]
 
 
@@ -40,7 +43,7 @@ class Repo(unittest.TestCase):
 
     def test_root_matches_the_reel(self):
         root = sorted(d for d in os.listdir(ROOT) if not d.startswith(".git"))
-        self.assertEqual(root, sorted([".hermes-plugin", "LICENSE", "README.md", "tests"] + SKILLS))
+        self.assertEqual(root, sorted([".hermes-plugin", "LICENSE", "README.md", "tests", "portfolio"] + SKILLS))
 
     def test_frontmatter_name_and_description(self):
         for s in SKILLS:
@@ -93,8 +96,8 @@ class Repo(unittest.TestCase):
     def test_no_v1_only_skill_is_left_behind(self):
         for path in every_text_file():
             rel = os.path.relpath(path, ROOT)
-            if rel.startswith("tests" + os.sep) or rel == "README.md":
-                continue  # the README points v1 users to the v1 commit
+            if rel.startswith("tests" + os.sep) or rel == "README.md" or rel.startswith("portfolio" + os.sep):
+                continue  # the README points v1 users to the v1 commit; portfolio/ contains v1 skills
             with open(path, encoding="utf-8", errors="replace") as fh:
                 text = fh.read()
             for old in V1_ONLY:
