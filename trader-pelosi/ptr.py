@@ -338,8 +338,11 @@ def pdf_to_text(pdf_path):
     exe = shutil.which("pdftotext")
     if not exe:
         return None
+    # abspath keeps a filename that starts with "-" from being read as a
+    # pdftotext option (the Clerk names the files, not us)
+    pdf = os.path.abspath(pdf_path)
     try:
-        out = subprocess.run([exe, "-layout", pdf_path, "-"], capture_output=True, timeout=60)
+        out = subprocess.run([exe, "-layout", pdf, "-"], capture_output=True, timeout=60)
     except (OSError, subprocess.SubprocessError):
         return None
     return out.stdout.decode("utf-8", "replace") if out.returncode == 0 else None
