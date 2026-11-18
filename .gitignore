@@ -1,6 +1,11 @@
 # Python build artifacts
 __pycache__/
 *.pyc
+dist/
+*.egg-info/
+
+# npm build artifacts
+node_modules/
 
 # Local runtime state the skills write (trader/ work folders)
 trader/

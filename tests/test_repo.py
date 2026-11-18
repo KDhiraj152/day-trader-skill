@@ -44,11 +44,16 @@ class Repo(unittest.TestCase):
 
     def test_root_matches_the_reel(self):
         # trader/ is the runtime folder the skills write into (gitignored): it
-        # appears the moment anyone runs the pack from this checkout
+        # appears the moment anyone runs the pack from this checkout. dist/,
+        # node_modules/ and *.egg-info/ are the installer's build output,
+        # which only exists after someone packages the repo.
+        build = ("dist", "node_modules", "trader_skill.egg-info")
         root = sorted(d for d in os.listdir(ROOT)
-                      if d not in (".git", ".gitignore", ".github", "trader"))
+                      if d not in (".git", ".gitignore", ".github", "trader") + build)
         self.assertEqual(root, sorted(["plugin.json", "marketplace.json", "LICENSE",
-                                       "README.md", "tests", "portfolio"] + SKILLS))
+                                       "README.md", "tests", "portfolio",
+                                       "pyproject.toml", "package.json",
+                                       "bin", "installer"] + SKILLS))
 
     def test_frontmatter_name_and_description(self):
         for s in SKILLS:
@@ -176,6 +181,62 @@ class Repo(unittest.TestCase):
             cfg = json.load(fh)
         self.assertIs(cfg["paper"], True)
         self.assertIs(cfg.get("allow_options", False), False)
+
+
+class Package(unittest.TestCase):
+    """The pack installs from pip and npm, and both ship the whole thing.
+
+    `pipx install trader-skill` and `npx trader-skill` are first-class ways
+    in, next to the clone-and-copy path. These tests keep the two packages
+    in step with each other and with the plugin manifest.
+    """
+
+    def test_versions_agree_across_every_manifest(self):
+        with open(os.path.join(ROOT, "plugin.json")) as fh:
+            plugin = json.load(fh)["version"]
+        with open(os.path.join(ROOT, "package.json")) as fh:
+            npm = json.load(fh)["version"]
+        with open(os.path.join(ROOT, "pyproject.toml"), encoding="utf-8") as fh:
+            m = re.search(r'(?m)^version = "(.+)"$', fh.read())
+            pip = m.group(1) if m else None
+        self.assertTrue(plugin and pip and npm, "a manifest is missing its version")
+        self.assertEqual(plugin, pip, "plugin.json vs pyproject.toml")
+        self.assertEqual(plugin, npm, "plugin.json vs package.json")
+
+    def test_npm_package_bundles_the_pack(self):
+        with open(os.path.join(ROOT, "package.json")) as fh:
+            npm = json.load(fh)
+        self.assertEqual(npm["name"], "trader-skill")
+        self.assertEqual(npm["bin"], {"trader-skill": "bin/cli.js"})
+        self.assertGreaterEqual(int(npm["engines"]["node"].lstrip(">=^~ ").split(".")[0]), 14)
+        files = npm["files"]
+        self.assertIn("bin/", files)
+        self.assertIn("trader-*", files, "the npm tarball must carry the skill folders")
+        self.assertIn("plugin.json", files)
+        self.assertIn("marketplace.json", files)
+        self.assertNotIn("tests", files)  # nobody needs the test suite in their npm install
+        # what the shipped CLI promises is what the plugin manifest names
+        with open(os.path.join(ROOT, "bin", "cli.js"), encoding="utf-8") as fh:
+            cli = fh.read()
+        for word in ("--dir", "--skills", "--force", "--list", "SKILL.md"):
+            self.assertIn(word, cli, word)
+
+    def test_pip_package_bundles_the_pack(self):
+        with open(os.path.join(ROOT, "pyproject.toml"), encoding="utf-8") as fh:
+            pyproject = fh.read()
+        self.assertIn('name = "trader-skill"', pyproject)
+        self.assertIn('requires-python = ">=3.8"', pyproject)
+        self.assertIn('trader-skill = "installer.cli:main"', pyproject)
+        self.assertIn("force-include", pyproject)
+        # every skill folder rides in the wheel
+        for s in SKILLS:
+            self.assertIn('"%s" = "installer/_pack/%s"' % (s, s), pyproject, s)
+        self.assertIn('"plugin.json" = "installer/_pack/plugin.json"', pyproject)
+        self.assertIn('"marketplace.json" = "installer/_pack/marketplace.json"', pyproject)
+        with open(os.path.join(ROOT, "installer", "cli.py"), encoding="utf-8") as fh:
+            cli = fh.read()
+        for word in ("--skills", "--force", "_pack"):
+            self.assertIn(word, cli, word)
 
 
 if __name__ == "__main__":

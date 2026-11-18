@@ -24,29 +24,61 @@ an order on its own. Paper trading is the default.
 
 ## Install
 
-Any agent that loads `SKILL.md` folders can run this. Pick the way that fits
-yours:
+Any agent that loads `SKILL.md` folders can run this. Four ways in, pick the
+one that fits how you work:
 
-**Copy the skill folders.** Clone the repo and copy the `trader-*` folders
-into your agent's skill directory (each agent documents where that is; it is
-often a `skills/` folder in your home directory or at the project root):
+**npx, if you have Node.** Copies the 12 skill folders into whatever folder
+you point it at (default: the one you are in):
+
+```bash
+npx trader-skill --dir <your agent's skill folder>
+```
+
+**pipx or pip, if you have Python.** Same installer, same result:
+
+```bash
+pipx install trader-skill
+trader-skill install <your agent's skill folder>
+```
+
+(`pip install trader-skill` works too; `trader-skill list` shows what ships,
+and `--skills trader-scanner,trader-news` installs a few instead of all 12.)
+
+**Clone and copy, the old way.** No install step you don't control:
 
 ```bash
 git clone https://github.com/KDhiraj152/trader-skill.git
 cp -r trader-skill/trader-* <your agent's skill folder>/
 ```
 
+**Paste it into the agent.** No skill loader, no terminal? Copy the block
+below and paste it at the top of a chat with your agent; it does the rest.
+Or open any single `SKILL.md` in this repo, copy the whole thing, and paste
+it the same way: the agent picks it up as a mode, and you lose only the
+Python tools, not the method. The paste for `trader-budget` or
+`trader-risk` alone will save your account.
+
+```text
+Install the Trader skill pack for me. Steps:
+1. Run: npx trader-skill --dir ./skills
+   (no Node? use: pipx install trader-skill && trader-skill install ./skills)
+2. Read every SKILL.md in ./skills/trader-* and treat them as your skills.
+3. The skills write their state into a trader/ folder in this project.
+4. Start with /trader-scanner to build a watchlist, then /trader-news,
+   /trader-entry, /trader-exit, /trader-timemachine, /trader-budget,
+   /trader-risk before any order. Paper trading only by default; no order
+   is ever placed without my explicit yes.
+```
+
 **As a plugin.** The repo root has `plugin.json` and `marketplace.json` in
 the neutral agent-plugins.org shape. Agents that read that manifest can
 install the whole pack straight from this repo.
 
-**No skill loader at all?** Paste any single `SKILL.md` at the top of a chat
-and it runs as a mode. You lose the Python tools, but the method works.
-
-The tools need Python 3.8 or newer. Nothing to pip install. The SEC tools
-(news filings, the analyst) ask you to identify yourself: put your name and
-email in `trader/config.json` (`"sec_user_agent": "Your Name you@example.com"`)
-or in the `SEC_USER_AGENT` environment variable.
+The tools need Python 3.8 or newer and nothing else: plain standard-library
+Python, no pip dependencies. The SEC tools (news filings, the analyst) ask
+you to identify yourself: put your name and email in `trader/config.json`
+(`"sec_user_agent": "Your Name you@example.com"`) or in the
+`SEC_USER_AGENT` environment variable.
 
 The Research Desk needs a running OpenBB server: install OpenBB, run
 `openbb-api` from its environment, and the desk works. Without it, that
@@ -257,6 +289,10 @@ connect `openbb-mcp` instead; the shape is in
 ```
 plugin.json          the neutral agent-plugins.org manifest (whole pack installs as one plugin)
 marketplace.json     same, for agents that read a marketplace list
+pyproject.toml       the pip package: pipx install trader-skill, then `trader-skill install`
+package.json         the npm package: npx trader-skill
+bin/cli.js           the npm installer (plain Node, no dependencies)
+installer/           the pip installer: copies the bundled skill folders out
 trader-scanner/     SKILL.md, scan.py
 trader-news/        SKILL.md, news.py
 trader-entry/       SKILL.md, entry.py

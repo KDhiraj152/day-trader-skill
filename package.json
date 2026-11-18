@@ -1,0 +1,33 @@
+{
+  "name": "trader-skill",
+  "version": "2.1.0",
+  "description": "12 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, replay every outcome before you risk a dollar, and dig into any stock: options, shorts, dark-pool flow, insider trades and the macro numbers.",
+  "bin": {
+    "trader-skill": "bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "trader-*",
+    "plugin.json",
+    "marketplace.json"
+  ],
+  "keywords": [
+    "day-trading",
+    "stock-market",
+    "ai-agent-skills",
+    "mcp",
+    "options",
+    "short-interest",
+    "market-research",
+    "openbb"
+  ],
+  "author": "K Dhiraj",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KDhiraj152/trader-skill.git"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

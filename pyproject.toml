@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "trader-skill"
+version = "2.1.0"
+description = "12 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, replay every outcome before you risk a dollar, and dig into any stock: options, shorts, dark-pool flow, insider trades and the macro numbers."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "K Dhiraj" }]
+keywords = ["day-trading", "stock-market", "ai-agent-skills", "mcp", "options", "short-interest", "market-research", "openbb"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Topic :: Office/Business :: Financial :: Investment",
+]
+
+[project.scripts]
+trader-skill = "installer.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/KDhiraj152/trader-skill"
+Repository = "https://github.com/KDhiraj152/trader-skill"
+
+[tool.hatch.build.targets.wheel]
+packages = ["installer"]
+
+# the wheel carries the skill folders themselves: `trader-skill install`
+# copies them out of the installed package, no network needed
+[tool.hatch.build.targets.wheel.force-include]
+"trader-scanner" = "installer/_pack/trader-scanner"
+"trader-news" = "installer/_pack/trader-news"
+"trader-entry" = "installer/_pack/trader-entry"
+"trader-exit" = "installer/_pack/trader-exit"
+"trader-timemachine" = "installer/_pack/trader-timemachine"
+"trader-risk" = "installer/_pack/trader-risk"
+"trader-budget" = "installer/_pack/trader-budget"
+"trader-broker" = "installer/_pack/trader-broker"
+"trader-alerts" = "installer/_pack/trader-alerts"
+"trader-analyst" = "installer/_pack/trader-analyst"
+"trader-pelosi" = "installer/_pack/trader-pelosi"
+"trader-research" = "installer/_pack/trader-research"
+"plugin.json" = "installer/_pack/plugin.json"
+"marketplace.json" = "installer/_pack/marketplace.json"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "installer",
+  "README.md",
+  "LICENSE",
+  "plugin.json",
+  "marketplace.json",
+  "trader-*",
+]
