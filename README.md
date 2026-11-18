@@ -76,7 +76,7 @@ An example, the trade in the reel: Tesla, Monday October 19 2026, real data.
 
 1. **`/trader-scanner`** at 10:15 AM ET: of the 231 charts in the reel's
    scan, 42 had closed above their 15-minute opening range. TSLA is one: range 354.47 to 362.18,
-   the 10:10 candle closed at 364.18, 0.55 % over the top.
+   the 10:10 candle closed at 364.18, 0.55% over the top.
 2. **`/trader-news`**: the morning's TSLA headlines, in New York time
    ("Tesla-SpaceX Merger Mania Strikes Wall Street Ahead of Earnings", 8:04,
    tagged earnings and deal). Tesla reports this week: a day trade is out
@@ -90,10 +90,10 @@ An example, the trade in the reel: Tesla, Monday October 19 2026, real data.
 5. **`/trader-timemachine`** replayed the rest of the day 10,000 times, each
    5-minute candle drawn from TSLA's own candles at that time of day over the
    previous 59 sessions (seed 19, so anyone can repeat it): target first
-   29.4 %, stop first 25.5 %, still open at the close 45.1 %. It also re-ran
+   29.4%, stop first 25.5%, still open at the close 45.1%. It also re-ran
    the same rule on those 59 real sessions: it fired 33 times, 13 hit the
-   target, 15 the stop, 5 neither. Its verdict: close to a coin flip. That is
-   the point of looking before you risk a dollar.
+   target, 15 the stop, 5 neither. Its verdict: close to a coin flip. Which is
+   exactly why you replay it first.
 6. **`/trader-budget`** with a $5,000 account and a $50 max loss per trade:
    50 / 5.86 = 8 shares ($2,913.44). If the stop fills at 358.32, the loss is
    $46.88. It writes one bracket order: buy 8 TSLA, stop-loss 358.32,
@@ -151,8 +151,8 @@ yourself, and talk to a licensed professional if you need advice.
 an order, and only after `/trader-risk` passes that exact order and you type
 yes for it in the chat. Set your brokerage tool to "Needs approval" in your
 agent's connector settings, never "Always allow", so its "Allow once / Deny"
-prompt is a second check. No options, margin, short
-selling or leverage unless you turn them on.
+prompt is a second check. No options, margin, short selling or leverage
+unless you turn them on.
 
 **Paper first.** `"paper": true` is the default in `config.example.json`, and
 Alpaca's MCP server defaults to its paper account. Keys live in environment
@@ -202,8 +202,8 @@ identify itself. Put your real name and email in `trader/config.json`
 environment variable. Without it the news tool still shows headlines and
 just skips the filings.
 
-**A guard refused your command and it looks like an error.** It is not: it
-is the tool checking the data. The common ones:
+**A guard refused your command and it looks like an error.** It is the tool
+checking the data. The common ones:
 a price quote older than 15 minutes is not used ("Sized at the plan's
 entry"); a plan written on an earlier day is refused (make a new one with
 `/trader-exit`); a risk check from an earlier day makes the ticket "NOT
