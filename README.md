@@ -1,6 +1,6 @@
-# The Day Trader skill
+# The Trader skill
 
-[![tests](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml)
+[![tests](https://github.com/KDhiraj152/trader-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/KDhiraj152/trader-skill/actions/workflows/ci.yml)
 
 12 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, replay every outcome before you risk a dollar, and dig into any stock: options, shorts, dark-pool flow, insider trades and the macro numbers.
 
@@ -32,8 +32,8 @@ into your agent's skill directory (each agent documents where that is; it is
 often a `skills/` folder in your home directory or at the project root):
 
 ```bash
-git clone https://github.com/KDhiraj152/day-trader-skill.git
-cp -r day-trader-skill/trader-* <your agent's skill folder>/
+git clone https://github.com/KDhiraj152/trader-skill.git
+cp -r trader-skill/trader-* <your agent's skill folder>/
 ```
 
 **As a plugin.** The repo root has `plugin.json` and `marketplace.json` in

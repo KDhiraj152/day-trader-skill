@@ -109,7 +109,7 @@ class Versions(unittest.TestCase):
                         continue
                     path = os.path.join(base, f)
                     with open(path, encoding="utf-8") as fh:
-                        for m in re.finditer(r"(?:day-trader-skill|trader-skill)/(\d+\.\d+)", fh.read()):
+                        for m in re.finditer(r"trader-skill/(\d+\.\d+)", fh.read()):
                             if m.group(1) != minor:
                                 wrong.append("%s says /%s" % (os.path.relpath(path, ROOT), m.group(1)))
         self.assertEqual(wrong, [], "user agents disagree with plugin.json's %s: %s"

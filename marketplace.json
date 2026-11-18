@@ -1,17 +1,17 @@
 {
-  "name": "day-trader-skill",
-  "description": "The Day Trader skill pack: the Trader skill v2",
+  "name": "trader-skill",
+  "description": "The Trader skill pack: v2",
   "owner": {
     "name": "K Dhiraj",
     "url": "https://github.com/KDhiraj152"
   },
   "plugins": [
     {
-      "name": "day-trader-skill",
+      "name": "trader-skill",
       "description": "Twelve skills for day trading: a chart scanner, a news monitor, an entry timer, an exit planner, a time machine that replays 10,000 sessions, a risk manager, a budget manager, an order executor (paper by default, never without your yes), price alerts, an earnings analyst, a Pelosi tracker and a research desk that reads a local OpenBB server for options chains, short interest, dark-pool volume, insider trades and macro series.",
       "source": "./",
       "category": "productivity",
-      "homepage": "https://github.com/KDhiraj152/day-trader-skill"
+      "homepage": "https://github.com/KDhiraj152/trader-skill"
     }
   ]
 }

@@ -68,7 +68,7 @@ class Repo(unittest.TestCase):
     def test_plugin_manifest_points_at_the_root_skills(self):
         with open(os.path.join(ROOT, "plugin.json")) as fh:
             plugin = json.load(fh)
-        self.assertEqual(plugin["name"], "day-trader-skill")
+        self.assertEqual(plugin["name"], "trader-skill")
         # Agents discover SKILL.md folders themselves: no "skills" key, and the
         # manifest validates against the official plugin schema
         self.assertNotIn("skills", plugin)
@@ -76,8 +76,8 @@ class Repo(unittest.TestCase):
         self.assertEqual(plugin["description"], ABOUT)
         with open(os.path.join(ROOT, "marketplace.json")) as fh:
             market = json.load(fh)
-        self.assertEqual(market["name"], "day-trader-skill")
-        self.assertEqual(market["plugins"][0]["name"], "day-trader-skill")
+        self.assertEqual(market["name"], "trader-skill")
+        self.assertEqual(market["plugins"][0]["name"], "trader-skill")
         # no $schema in the marketplace manifest: no published schema for it,
         # and a dead link is worse than none
         self.assertNotIn("$schema", market)
@@ -85,10 +85,10 @@ class Repo(unittest.TestCase):
     def test_readme_carries_the_reel_copy(self):
         with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as fh:
             readme = " ".join(fh.read().split())
-        self.assertTrue(readme.startswith("# The Day Trader skill"))
+        self.assertTrue(readme.startswith("# The Trader skill"))
         for line in (ABOUT,
-                     "git clone https://github.com/KDhiraj152/day-trader-skill.git",
-                     "cp -r day-trader-skill/trader-*",
+                     "git clone https://github.com/KDhiraj152/trader-skill.git",
+                     "cp -r trader-skill/trader-*",
                      "`plugin.json` and `marketplace.json`",
                      "## Fine print"):
             self.assertIn(line, readme)

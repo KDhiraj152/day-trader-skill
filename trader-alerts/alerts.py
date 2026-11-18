@@ -57,7 +57,7 @@ import time
 import urllib.error
 import urllib.request
 
-UA = "Mozilla/5.0 (compatible; day-trader-skill/2.1; +https://github.com/KDhiraj152/day-trader-skill)"
+UA = "Mozilla/5.0 (compatible; trader-skill/2.1; +https://github.com/KDhiraj152/trader-skill)"
 PAUSE = 0.5    # seconds between requests: be polite to free endpoints
 BACKOFF = 2.0  # seconds to wait before the one retry after a 429
 YAHOO_HOSTS = ("query2.finance.yahoo.com", "query1.finance.yahoo.com")

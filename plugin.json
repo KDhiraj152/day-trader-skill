@@ -1,14 +1,14 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "day-trader-skill",
+  "name": "trader-skill",
   "description": "12 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, replay every outcome before you risk a dollar, and dig into any stock: options, shorts, dark-pool flow, insider trades and the macro numbers.",
   "version": "2.1.0",
   "author": {
     "name": "K Dhiraj",
     "url": "https://github.com/KDhiraj152"
   },
-  "homepage": "https://github.com/KDhiraj152/day-trader-skill",
-  "repository": "https://github.com/KDhiraj152/day-trader-skill",
+  "homepage": "https://github.com/KDhiraj152/trader-skill",
+  "repository": "https://github.com/KDhiraj152/trader-skill",
   "license": "MIT",
   "keywords": [
     "ai-agent-skills",
