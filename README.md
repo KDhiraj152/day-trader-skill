@@ -27,18 +27,20 @@ an order on its own. Paper trading is the default.
 Any agent that loads `SKILL.md` folders can run this. Four ways in, pick the
 one that fits how you work:
 
-**npx, if you have Node.** Copies the 12 skill folders into whatever folder
-you point it at (default: the one you are in):
+**npx, if you have Node.** One command, no paths: it copies the 12 skill
+folders where agents read them (your project's `skills/` folder if there is
+one, else `~/.agents/skills`, created on the spot; `--dir` to choose
+yourself):
 
 ```bash
-npx trader-skill --dir <your agent's skill folder>
+npx trader-skill
 ```
 
 **pipx or pip, if you have Python.** Same installer, same result:
 
 ```bash
 pipx install trader-skill
-trader-skill install <your agent's skill folder>
+trader-skill install
 ```
 
 (`pip install trader-skill` works too; `trader-skill list` shows what ships,
@@ -60,9 +62,9 @@ Python tools, not the method. The paste for `trader-budget` or
 
 ```text
 Install the Trader skill pack for me. Steps:
-1. Run: npx trader-skill --dir ./skills
-   (no Node? use: pipx install trader-skill && trader-skill install ./skills)
-2. Read every SKILL.md in ./skills/trader-* and treat them as your skills.
+1. Run: npx trader-skill
+   (no Node? use: pipx install trader-skill && trader-skill install)
+2. Read every SKILL.md in the folder it names and treat them as your skills.
 3. The skills write their state into a trader/ folder in this project.
 4. Start with /trader-scanner to build a watchlist, then /trader-news,
    /trader-entry, /trader-exit, /trader-timemachine, /trader-budget,

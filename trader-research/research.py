@@ -43,7 +43,6 @@ import io
 import json
 import os
 import sys
-import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -70,7 +69,7 @@ def _get(path, params, base=None, offline_dir=None, offline_name=None):
     try:
         with urllib.request.urlopen(url, timeout=TIMEOUT) as res:
             data = json.load(res)
-    except (urllib.error.URLError, OSError, ValueError) as err:
+    except (OSError, ValueError) as err:  # URLError subclasses OSError
         reason = getattr(err, "reason", None) or err
         raise ResearchError(
             "the OpenBB server is not answering (%s). Start it from your OpenBB "
@@ -121,7 +120,7 @@ def _as_pct(value):
     return "%.2f%%" % (float(value) * 100.0)
 
 
-def _head(rows, title, cols, widths):
+def _head(title, cols, widths):
     """One shared table header so every section prints the same way."""
     print(title)
     print("  ".join(str(c).ljust(w) for c, w in zip(cols, widths)))
@@ -137,7 +136,7 @@ def show_quote(args):
     if not rows:
         raise ResearchError("no quote for %s" % args.symbol)
     q = rows[0]
-    _head("", "%s %s  (delayed)" % (q.get("symbol"), q.get("name") or ""),
+    _head("%s %s  (delayed)" % (q.get("symbol"), q.get("name") or ""),
           [], [])
     print("  last %s  bid %s x %s  ask %s x %s  tick %s at %s"
           % (_num(q.get("last_price")), _num(q.get("bid")), _num(q.get("bid_size")),
@@ -161,7 +160,7 @@ def cmd_shorts(args):
     if not rows:
         raise ResearchError("no short interest for %s" % args.symbol)
     rows = sorted(rows, key=lambda r: str(r.get("settlement_date")), reverse=True)
-    _head("", "Short interest, %s, %d settlements" % (args.symbol, len(rows)),
+    _head("Short interest, %s, %d settlements" % (args.symbol, len(rows)),
           ["settle", "short pos", "days cover", "vs prev", ""],
           [12, 14, 10, 10, 8])
     for r in rows[:args.limit]:
@@ -179,7 +178,7 @@ def cmd_darkpool(args):
     if not rows:
         raise ResearchError("no dark-pool rows for %s" % args.symbol)
     rows = sorted(rows, key=lambda r: str(r.get("update_date")), reverse=True)
-    _head("", "Dark-pool (ATS) volume, %s, by week" % args.symbol,
+    _head("Dark-pool (ATS) volume, %s, by week" % args.symbol,
           ["week start", "dark shares", "trades", "avg trade size"],
           [12, 14, 12, 15])
     for r in rows[:args.limit]:
@@ -198,7 +197,7 @@ def cmd_ftd(args):
     if not rows:
         raise ResearchError("no fails-to-deliver for %s" % args.symbol)
     rows = sorted(rows, key=lambda r: str(r.get("settlement_date")), reverse=True)
-    _head("", "Fails to deliver, %s, %d recent days" % (args.symbol, len(rows)),
+    _head("Fails to deliver, %s, %d recent days" % (args.symbol, len(rows)),
           ["settle", "shares", "price"], [12, 12, 10])
     for r in rows[:args.limit]:
         _row([str(r.get("settlement_date")), _num(r.get("quantity")),
@@ -212,7 +211,7 @@ def cmd_insider(args):
     if not rows:
         raise ResearchError("no insider trades for %s" % args.symbol)
     rows = sorted(rows, key=lambda r: str(r.get("filing_date")), reverse=True)
-    _head("", "Insider trades, %s" % args.symbol,
+    _head("Insider trades, %s" % args.symbol,
           ["filed", "who", "role", "what", "shares", "price"],
           [11, 18, 22, 34, 9, 9])
     for r in rows[:args.limit]:
@@ -232,7 +231,7 @@ def cmd_filings(args):
     if not rows:
         raise ResearchError("no filings for %s" % args.symbol)
     rows = sorted(rows, key=lambda r: str(r.get("filing_date")), reverse=True)
-    _head("", "Filings, %s, %d in the window" % (args.symbol, len(rows)),
+    _head("Filings, %s, %d in the window" % (args.symbol, len(rows)),
           ["filed", "form", "what", "link"], [11, 10, 26, 10])
     for r in rows[:args.limit]:
         _row([str(r.get("filing_date")), str(r.get("report_type") or ""),
@@ -250,7 +249,7 @@ def cmd_chains(args):
     for r in rows:
         exps[str(r.get("expiration"))] = exps.get(str(r.get("expiration")), 0) + 1
     if not args.expiration:
-        _head("", "Options, %s, spot %s" % (args.symbol,
+        _head("Options, %s, spot %s" % (args.symbol,
                _num(rows[0].get("underlying_price"))),
               ["expiration", "contracts"], [12, 10])
         for exp in sorted(exps):
@@ -262,7 +261,7 @@ def cmd_chains(args):
         raise ResearchError("no contracts at %s; the expirations are listed above" % args.expiration)
     spot = picked[0].get("underlying_price")
     picked.sort(key=lambda r: (r.get("option_type") or "", abs((r.get("strike") or 0) - (spot or 0))))
-    _head("", "%s %s, spot %s (delayed)" % (args.symbol, args.expiration, _num(spot)),
+    _head("%s %s, spot %s (delayed)" % (args.symbol, args.expiration, _num(spot)),
           ["type", "strike", "last", "bid x ask", "oi", "iv", "delta", "theta"],
           [5, 8, 9, 14, 7, 7, 7, 7])
     for r in picked[:args.limit * 2]:
@@ -298,7 +297,7 @@ def cmd_calendar(args):
     if not rows:
         raise ResearchError("no earnings on the calendar for the next %d days" % args.days)
     rows = sorted(rows, key=lambda r: str(r.get("report_date")))
-    _head("", "Earnings, %s to %s, %d companies" % (start, end, len(rows)),
+    _head("Earnings, %s to %s, %d companies" % (start, end, len(rows)),
           ["date", "symbol", "eps est", "when"], [11, 8, 9, 8])
     for r in rows[:args.limit]:
         _row([str(r.get("report_date")), str(r.get("symbol")),
@@ -338,14 +337,8 @@ COMMANDS = {
 }
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__,
-                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--base", default=None, help="OpenBB server root, default %s" % DEFAULT_BASE)
-    ap.add_argument("--offline", default=None, metavar="DIR",
-                    help="read fixtures from DIR instead of the server (tests)")
-    ap.add_argument("--json", action="store_true", help="print the raw rows as JSON")
-    sub = ap.add_subparsers(dest="command")
+def _add_subcommands(sub):
+    """The per-command flags, so main stays small enough to read."""
     for name, (fn, argname, help_text) in sorted(COMMANDS.items()):
         sp = sub.add_parser(name, help=help_text)
         if argname:
@@ -361,6 +354,16 @@ def main():
         if name == "macro":
             sp.add_argument("--points", type=int, default=6, help="values to show")
         sp.set_defaults(fn=fn)
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--base", default=None, help="OpenBB server root, default %s" % DEFAULT_BASE)
+    ap.add_argument("--offline", default=None, metavar="DIR",
+                    help="read fixtures from DIR instead of the server (tests)")
+    ap.add_argument("--json", action="store_true", help="print the raw rows as JSON")
+    _add_subcommands(ap.add_subparsers(dest="command"))
     args = ap.parse_args()
     if not args.command:
         ap.print_help()

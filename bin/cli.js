@@ -2,13 +2,21 @@
 "use strict";
 
 // trader-skill: installs the Trader skill pack for your agent.
-// `npx trader-skill` copies the 12 bundled skill folders into the current
-// directory (or --dir). Plain Node, no dependencies, works on Node 14 up.
+// `npx trader-skill` copies the 12 bundled skill folders into a folder your
+// agent reads (./skills if this project has one, else ~/.agents/skills;
+// --dir to choose yourself). Plain Node, no dependencies.
 
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
+const os = require("node:os");
 
 const ROOT = path.join(__dirname, "..");
+
+function defaultDest() {
+  const here = path.join(process.cwd(), "skills");
+  if (fs.existsSync(here) && fs.statSync(here).isDirectory()) return here;
+  return path.join(os.homedir(), ".agents", "skills");
+}
 
 function version() {
   return JSON.parse(fs.readFileSync(path.join(ROOT, "plugin.json"), "utf8")).version;
@@ -58,7 +66,8 @@ function copyTree(from, to) {
 
 function usage() {
   console.log("trader-skill " + version() + ": installs the Trader skill pack for your agent\n");
-  console.log("  npx trader-skill              copy the 12 skill folders into this directory");
+  console.log("  npx trader-skill              copy the 12 skill folders to a picked place:");
+  console.log("                                ./skills if this project has one, else ~/.agents/skills");
   console.log("  npx trader-skill --dir DIR    copy into DIR instead");
   console.log("  npx trader-skill --skills trader-scanner,trader-news");
   console.log("  npx trader-skill --list       what is in the pack");
@@ -80,7 +89,7 @@ function main() {
     return 0;
   }
   const dirArg = args.indexOf("--dir");
-  const dest = path.resolve(dirArg >= 0 ? (args[dirArg + 1] || ".") : ".");
+  const dest = path.resolve(dirArg >= 0 ? (args[dirArg + 1] || ".") : defaultDest());
   fs.mkdirSync(dest, { recursive: true });
   let wanted = skills();
   const skillsArg = args.indexOf("--skills");
@@ -107,6 +116,9 @@ function main() {
   for (const name of wanted) console.log("  " + name);
   console.log("");
   console.log("Next: point your agent's skill loader at " + dest + " and load every SKILL.md.");
+  if (dest === path.join(os.homedir(), ".agents", "skills")) {
+    console.log("Many agents read ~/.agents/skills on their own; no pointer needed.");
+  }
   console.log("No loader? Paste any single SKILL.md at the top of a chat and it works as a mode.");
   console.log("The research desk optionally reads a local OpenBB server; see its SKILL.md.");
   return 0;

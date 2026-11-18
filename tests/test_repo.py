@@ -1,7 +1,9 @@
+import importlib.util
 import json
 import os
 import re
 import unittest
+from unittest import mock
 
 from _load import ROOT
 
@@ -237,6 +239,19 @@ class Package(unittest.TestCase):
             cli = fh.read()
         for word in ("--skills", "--force", "_pack"):
             self.assertIn(word, cli, word)
+
+    def test_installer_picks_a_destination_on_its_own(self):
+        # bare `trader-skill install` must not ask the user for a path:
+        # ./skills wins when the project has one, else ~/.agents/skills
+        spec = importlib.util.spec_from_file_location(
+            "ts_cli", os.path.join(ROOT, "installer", "cli.py"))
+        cli = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(cli)
+        with mock.patch.dict(os.environ, {"HOME": "/tmp/ts-fake-home"}):
+            self.assertEqual(cli.pick_destination(),
+                             os.path.abspath("/tmp/ts-fake-home/.agents/skills"))
+            self.assertEqual(cli.pick_destination("./elsewhere"),
+                             os.path.abspath("./elsewhere"))
 
 
 if __name__ == "__main__":

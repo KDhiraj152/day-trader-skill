@@ -28,6 +28,6 @@
     "url": "git+https://github.com/KDhiraj152/trader-skill.git"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   }
 }

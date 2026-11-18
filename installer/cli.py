@@ -12,6 +12,18 @@ import shutil
 import sys
 
 _PACK = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_pack")
+HOME_SKILLS = os.path.join("~", ".agents", "skills")
+
+
+def pick_destination(explicit=None):
+    """Where the skills go: --dir wins, then ./skills if this project has
+    one, else the cross-agent skills folder in your home directory
+    (~/.agents/skills), which gets created on the spot."""
+    if explicit:
+        return os.path.abspath(explicit)
+    if os.path.isdir("skills"):
+        return os.path.abspath("skills")
+    return os.path.abspath(os.path.expanduser(HOME_SKILLS))
 
 
 def _version():
@@ -62,7 +74,7 @@ def cmd_install(args):
             print("The pack ships: %s" % ", ".join(skills), file=sys.stderr)
             return 2
         wanted = asked
-    dest = os.path.abspath(args.dir or ".")
+    dest = pick_destination(args.dir)
     if dest != os.path.dirname(dest):  # not the filesystem root
         os.makedirs(dest, exist_ok=True)
     for name in wanted:
@@ -76,6 +88,8 @@ def cmd_install(args):
         print("  %s" % name)
     print()
     print("Next: point your agent's skill loader at %s and load every SKILL.md." % dest)
+    if dest.endswith(os.path.join(".agents", "skills")):
+        print("Many agents read ~/.agents/skills on their own; no pointer needed.")
     print("No loader? Paste any single SKILL.md at the top of a chat and it works as a mode.")
     print("The research desk optionally reads a local OpenBB server; see its SKILL.md.")
     return 0
@@ -94,8 +108,9 @@ def main(argv=None):
     ap.add_argument("--version", action="version", version="%(prog)s " + _version())
     sub = ap.add_subparsers(dest="command")
     p_install = sub.add_parser("install", help="copy the skill folders into a directory")
-    p_install.add_argument("dir", nargs="?", default=".",
-                           help="destination (your agent's skill folder), default: here")
+    p_install.add_argument("dir", nargs="?", default=None,
+                           help="destination; picked for you when left out "
+                                "(./skills if this project has one, else ~/.agents/skills)")
     p_install.add_argument("--skills", default=None, metavar="A,B",
                            help="only these skills, comma separated")
     p_install.add_argument("--force", action="store_true", help="overwrite folders that exist")
