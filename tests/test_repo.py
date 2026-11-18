@@ -5,14 +5,15 @@ import unittest
 
 from _load import ROOT
 
-# v2, the day-trading pack: the eleven folders the reel's repo card shows
+# v2, the day-trading pack: the twelve folders the reel's repo card shows
 SKILLS = ["trader-scanner", "trader-news", "trader-entry", "trader-exit", "trader-timemachine",
           "trader-risk", "trader-budget", "trader-broker", "trader-alerts", "trader-analyst",
-          "trader-pelosi"]
+          "trader-pelosi", "trader-research"]
 # portfolio basket (v1 skills moved here)
 PORTFOLIO_SKILLS = ["trader-copycat", "trader-screener", "trader-tax", "trader-rebalance"]
-ABOUT = ("11 skills for day trading: scan thousands of charts, track breaking news, time every "
-         "entry and exit, and replay every outcome before you risk a dollar.")
+ABOUT = ("12 skills for day trading: scan thousands of charts, track breaking news, time every "
+         "entry and exit, replay every outcome before you risk a dollar, and dig into any stock: "
+         "options, shorts, dark-pool flow, insider trades and the macro numbers.")
 # skills on the way to an order carry the safety block
 ORDER_PATH = ["trader-scanner", "trader-entry", "trader-exit", "trader-timemachine", "trader-budget",
               "trader-pelosi", "trader-risk", "trader-broker", "trader-alerts"]

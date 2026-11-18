@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "day-trader-skill",
-      "description": "Eleven skills for day trading: a chart scanner, a news monitor, an entry timer, an exit planner, a time machine that replays 10,000 sessions, a risk manager, a budget manager, an order executor (paper by default, never without your yes), price alerts, an earnings analyst and a Pelosi tracker.",
+      "description": "Twelve skills for day trading: a chart scanner, a news monitor, an entry timer, an exit planner, a time machine that replays 10,000 sessions, a risk manager, a budget manager, an order executor (paper by default, never without your yes), price alerts, an earnings analyst, a Pelosi tracker and a research desk that reads a local OpenBB server for options chains, short interest, dark-pool volume, insider trades and macro series.",
       "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/KDhiraj152/day-trader-skill"

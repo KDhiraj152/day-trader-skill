@@ -1,0 +1,90 @@
+{
+ "provider": "finra",
+ "warnings": null,
+ "results": [
+  {
+   "settlement_date": "2026-10-30",
+   "symbol": "TSLA",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "market_class": "Nasdaq Global Select and Global Market",
+   "current_short_position": 65956693.0,
+   "previous_short_position": 69350469.0,
+   "avg_daily_volume": 41974798.0,
+   "days_to_cover": 1.57,
+   "change": -3393776.0,
+   "change_pct": -4.89,
+   "revised": false,
+   "stock_split": false
+  },
+  {
+   "settlement_date": "2026-10-15",
+   "symbol": "TSLA",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "market_class": "Nasdaq Global Select and Global Market",
+   "current_short_position": 69350469.0,
+   "previous_short_position": 70931312.0,
+   "avg_daily_volume": 31287736.0,
+   "days_to_cover": 2.22,
+   "change": -1580843.0,
+   "change_pct": -2.23,
+   "revised": false,
+   "stock_split": false
+  },
+  {
+   "settlement_date": "2026-09-30",
+   "symbol": "TSLA",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "market_class": "Nasdaq Global Select and Global Market",
+   "current_short_position": 70931312.0,
+   "previous_short_position": 68862357.0,
+   "avg_daily_volume": 36582381.0,
+   "days_to_cover": 1.94,
+   "change": 2068955.0,
+   "change_pct": 3.0,
+   "revised": false,
+   "stock_split": false
+  },
+  {
+   "settlement_date": "2026-09-15",
+   "symbol": "TSLA",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "market_class": "Nasdaq Global Select and Global Market",
+   "current_short_position": 68862357.0,
+   "previous_short_position": 74230933.0,
+   "avg_daily_volume": 40108176.0,
+   "days_to_cover": 1.72,
+   "change": -5368576.0,
+   "change_pct": -7.23,
+   "revised": false,
+   "stock_split": false
+  },
+  {
+   "settlement_date": "2026-08-31",
+   "symbol": "TSLA",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "market_class": "Nasdaq Global Select and Global Market",
+   "current_short_position": 74230933.0,
+   "previous_short_position": 69196896.0,
+   "avg_daily_volume": 36423555.0,
+   "days_to_cover": 2.04,
+   "change": 5034037.0,
+   "change_pct": 7.27,
+   "revised": false,
+   "stock_split": false
+  },
+  {
+   "settlement_date": "2026-08-14",
+   "symbol": "TSLA",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "market_class": "Nasdaq Global Select and Global Market",
+   "current_short_position": 69196896.0,
+   "previous_short_position": 68501639.0,
+   "avg_daily_volume": 32128184.0,
+   "days_to_cover": 2.15,
+   "change": 695257.0,
+   "change_pct": 1.01,
+   "revised": false,
+   "stock_split": false
+  }
+ ]
+}

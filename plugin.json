@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "day-trader-skill",
-  "description": "11 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.",
-  "version": "2.0.0",
+  "description": "12 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, replay every outcome before you risk a dollar, and dig into any stock: options, shorts, dark-pool flow, insider trades and the macro numbers.",
+  "version": "2.1.0",
   "author": {
     "name": "K Dhiraj",
     "url": "https://github.com/KDhiraj152"
@@ -17,6 +17,10 @@
     "stock-market",
     "backtesting",
     "opening-range-breakout",
-    "paper-trading"
+    "paper-trading",
+    "options",
+    "short-interest",
+    "market-research",
+    "openbb"
   ]
 }

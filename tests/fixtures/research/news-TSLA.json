@@ -1,0 +1,50 @@
+{
+ "provider": "nasdaq",
+ "warnings": null,
+ "results": [
+  {
+   "date": "2026-11-17T00:00:00",
+   "title": "NIO vs. Tesla: Which EV Stock Is a Better Buy for 2027?",
+   "excerpt": "Key PointsNIO distinguishes itself through battery-swapping technology and rapid revenue growth in the premium electric vehicle market.",
+   "images": null,
+   "url": "https://www.nasdaq.com/articles/nio-vs-tesla-which-ev-stock-better-buy-2027",
+   "symbols": "NIO,TSLA",
+   "publisher": "The Motley Fool",
+   "topic": "Markets"
+  },
+  {
+   "date": "2026-11-17T00:00:00",
+   "title": "Stock Indexes Settle Sharply Lower on Big Tech Drubbing",
+   "excerpt": "The S&P 500 Index ($SPX ) (SPY ) closed down -1.92% on Monday, the Dow Jones Industrial Average ($DOWI ) (DIA ) closed down -1.41%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) closed down -2.67%.  December E-mini S&P futures (ESZ26 ) fell -1.91%, and December E-mini Nasdaq futures...",
+   "images": [
+    {
+     "url": "/barchart/Stressed%2520trader%2520on%2520exchange%2520floor%2520by%2520Gorodenkoff%2520via%2520Shutterstock.jpg"
+    }
+   ],
+   "url": "https://www.nasdaq.com/articles/stock-indexes-settle-sharply-lower-big-tech-drubbing",
+   "symbols": "BLSH,MSTR,GOOGL,MPC,ANET,AAPL,HRL,SNDK,ADI,GLXY,CRCL,SLB,LITE,COIN,ELV,CRWV,OXY,TSLA,FANG,STX,WDC,AMD,SPY,META,UHS,CHYM,HCA,SMMT,MU,BKR,ORCL,TSN,HSY,QQQ,IREN,GIS,PSX,XOM,CNC,ARM,HOOD,MRVL,AMAT,AVGO,CVX,ASML,MSFT,BMNR,SJM,LRCX,VLO,DIA,KLAC,MARA,NVDA,HUM,MKC,CI,MOH,HAL,APA,INTC,APLD,SOXX,NBIS,RIOT,DVN,AMZN,GXO",
+   "publisher": "Barchart",
+   "topic": "Stocks"
+  },
+  {
+   "date": "2026-11-17T00:00:00",
+   "title": "Tesla's $3.3B Cybercab Push in Germany: Will It Pay Off?",
+   "excerpt": "Tesla's $3.3B Cybercab expansion in Germany targets 1 million vehicles annually by 2029, but can it turn manufacturing scale into a profitable robotaxi business?",
+   "images": null,
+   "url": "https://www.nasdaq.com/articles/teslas-33b-cybercab-push-germany-will-it-pay",
+   "symbols": "TSLA,AMZN,GOOGL",
+   "publisher": "Zacks",
+   "topic": "Stocks"
+  },
+  {
+   "date": "2026-11-17T00:00:00",
+   "title": "Tesla, Inc. (TSLA) is Attracting Investor Attention: Here is What You Should Know  ",
+   "excerpt": "Zacks.com users have recently been watching Tesla (TSLA) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects.",
+   "images": null,
+   "url": "https://www.nasdaq.com/articles/tesla-inc-tsla-attracting-investor-attention-here-what-you-should-know",
+   "symbols": "TSLA",
+   "publisher": "Zacks",
+   "topic": "Technology"
+  }
+ ]
+}

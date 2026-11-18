@@ -1,0 +1,22 @@
+{
+ "provider": "fred",
+ "warnings": null,
+ "results": [
+  {
+   "date": "2026-01-01",
+   "FEDFUNDS": 3.64
+  },
+  {
+   "date": "2026-02-01",
+   "FEDFUNDS": 3.64
+  },
+  {
+   "date": "2026-03-01",
+   "FEDFUNDS": 3.64
+  },
+  {
+   "date": "2026-04-01",
+   "FEDFUNDS": 3.64
+  }
+ ]
+}

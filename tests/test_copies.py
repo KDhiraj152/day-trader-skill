@@ -98,7 +98,7 @@ class Versions(unittest.TestCase):
     def test_every_user_agent_matches_plugin_version(self):
         with open(os.path.join(ROOT, "plugin.json")) as fh:
             version = json.load(fh)["version"]
-        minor = ".".join(version.split(".")[:2])  # 2.0.0 -> 2.0
+        minor = ".".join(version.split(".")[:2])  # 2.1.0 -> 2.1
         wrong = []
         for s in SKILLS + ["portfolio"]:
             folder = os.path.join(ROOT, s)

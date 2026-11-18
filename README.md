@@ -2,11 +2,14 @@
 
 [![tests](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/KDhiraj152/day-trader-skill/actions/workflows/ci.yml)
 
-11 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, and replay every outcome before you risk a dollar.
+12 skills for day trading: scan thousands of charts, track breaking news, time every entry and exit, replay every outcome before you risk a dollar, and dig into any stock: options, shorts, dark-pool flow, insider trades and the macro numbers.
 
 Free, MIT, no signup, no API key. The tools are plain Python that read free
 public data: Yahoo Finance charts, Nasdaq Trader's symbol lists, SEC EDGAR
-and the House Clerk.
+and the House Clerk. One optional piece goes further: run a local OpenBB
+server (free, no key) and the Research Desk reads options chains with the
+greeks, short interest, dark-pool volume, insider trades and macro series
+through it.
 
 One scans thousands of charts for setups. Another tracks breaking news on
 every stock you watch. One watches a setup bar by bar and tells you the moment
@@ -45,7 +48,11 @@ The tools need Python 3.8 or newer. Nothing to pip install. The SEC tools
 email in `trader/config.json` (`"sec_user_agent": "Your Name you@example.com"`)
 or in the `SEC_USER_AGENT` environment variable.
 
-## The eleven
+The Research Desk needs a running OpenBB server: install OpenBB, run
+`openbb-api` from its environment, and the desk works. Without it, that
+skill says so and the other eleven run as before.
+
+## The twelve
 
 | command | job | what it does |
 | --- | --- | --- |
@@ -60,6 +67,7 @@ or in the `SEC_USER_AGENT` environment variable.
 | `/trader-alerts` | Price Alerts | Rings when a price, a stop or the opening bell hits. |
 | `/trader-analyst` | Earnings Analyst | Reads earnings reports and sums up what changed. |
 | `/trader-pelosi` | Pelosi Tracker | Reads Congress's stock-trade disclosures the minute they are filed. |
+| `/trader-research` | Research Desk | Options chains with the greeks, short interest, dark-pool volume, insider trades, filings, the earnings calendar and macro series, from a local OpenBB server. |
 
 ## How to use it
 
@@ -70,6 +78,7 @@ what the last one wrote:
 scanner -> news -> entry -> exit -> timemachine -> budget -> risk -> broker   (one trade)
 alerts: stop, target, flat by the close                                       (while it is open)
 news / analyst / pelosi                                                        (on a schedule)
+research: shorts, options, insiders, macro                                      (before and after)
 ```
 
 An example, the trade in the reel: Tesla, Monday October 19 2026, real data.
@@ -128,6 +137,11 @@ python3 trader-broker/ticket.py show                                   # the tic
 python3 trader-alerts/alerts.py add --from-plan                        # stop, target, flat by close
 python3 trader-alerts/alerts.py check                                  # rings what hit, once
 python3 trader-analyst/facts.py TSLA                                   # quarters, growth, EPS
+python3 trader-research/research.py shorts TSLA                        # short interest, days to cover
+python3 trader-research/research.py chains TSLA --expiration 2026-11-20
+python3 trader-research/research.py insider TSLA                       # Form 4 trades
+python3 trader-research/research.py calendar --days 7                  # who reports this week
+python3 trader-research/research.py macro FEDFUNDS                     # a macro series
 python3 trader-pelosi/ptr.py index --member pelosi                     # her PTRs this year
 ```
 
@@ -171,6 +185,13 @@ the stop price.
 official API: it can lag, change or rate-limit you. The scanner and the entry
 timer read 1-minute or 5-minute bars, not every tick. Check anything that
 matters against your broker before you act on it.
+
+**The research data is delayed, deliberately.** The Research Desk reads a
+local OpenBB server, and its sources are not live feeds: CBOE quotes and
+option chains are 15 minutes or more behind, FINRA short interest comes
+twice a month, dark-pool volume weekly, and fails to deliver about a month
+behind. None of it is a signal by itself; it is positioning context to read
+next to the filings and the tape.
 
 **Day-trading rules.** FINRA removed the $25,000 pattern-day-trader minimum
 on June 4, 2026 (Regulatory Notice 26-10), and brokers may phase the change
@@ -224,6 +245,13 @@ PDF path so you can open it yourself. For automatic text extraction it
 needs poppler: `brew install poppler` (macOS) or your package manager's
 equivalent, then `ptr.py fetch` again.
 
+**The research desk refuses to run.** It talks to a local OpenBB server and
+there is none up: start it with `openbb-api --port 6900` from your OpenBB
+environment, or point the desk elsewhere with `openbb_base_url` in
+`trader/config.json`. The error names both. Agents that speak MCP can
+connect `openbb-mcp` instead; the shape is in
+`trader-research/mcp_servers.example.json`.
+
 ## Files
 
 ```
@@ -240,6 +268,7 @@ trader-broker/      SKILL.md, ticket.py, mcp_servers.example.json
 trader-alerts/      SKILL.md, alerts.py, alerts.example.json
 trader-analyst/     SKILL.md, facts.py, metrics.example.json
 trader-pelosi/      SKILL.md, ptr.py
+trader-research/    SKILL.md, research.py, mcp_servers.example.json
 portfolio/          the v1 basket: copycat, screener, tax, rebalance, plus the same pack as above
 tests/              unittest suite + offline fixtures, for both the pack and the basket
 ```

@@ -1,0 +1,58 @@
+{
+ "provider": "finra",
+ "warnings": null,
+ "results": [
+  {
+   "update_date": "2026-11-16",
+   "symbol": "TSLA",
+   "share_quantity": 30432424.0,
+   "trade_quantity": 611884.0,
+   "week_start_date": "2026-10-26",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "tier": "NMS Tier 1",
+   "product_type": "Nasdaq-Listed (UTP Plan)",
+   "total_notional": 12160722618.307884,
+   "initial_published_date": "2026-11-16",
+   "last_reported_date": "2026-10-30"
+  },
+  {
+   "update_date": "2026-11-09",
+   "symbol": "TSLA",
+   "share_quantity": 30640589.0,
+   "trade_quantity": 637422.0,
+   "week_start_date": "2026-10-19",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "tier": "NMS Tier 1",
+   "product_type": "Nasdaq-Listed (UTP Plan)",
+   "total_notional": 11530976522.200989,
+   "initial_published_date": "2026-11-09",
+   "last_reported_date": "2026-10-23"
+  },
+  {
+   "update_date": "2026-11-02",
+   "symbol": "TSLA",
+   "share_quantity": 24811238.0,
+   "trade_quantity": 589085.0,
+   "week_start_date": "2026-10-12",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "tier": "NMS Tier 1",
+   "product_type": "Nasdaq-Listed (UTP Plan)",
+   "total_notional": 9070795556.769339,
+   "initial_published_date": "2026-11-02",
+   "last_reported_date": "2026-10-16"
+  },
+  {
+   "update_date": "2026-10-26",
+   "symbol": "TSLA",
+   "share_quantity": 21717907.0,
+   "trade_quantity": 488417.0,
+   "week_start_date": "2026-10-05",
+   "issue_name": "Tesla, Inc. Common Stock",
+   "tier": "NMS Tier 1",
+   "product_type": "Nasdaq-Listed (UTP Plan)",
+   "total_notional": 8224562136.94374,
+   "initial_published_date": "2026-10-26",
+   "last_reported_date": "2026-10-09"
+  }
+ ]
+}

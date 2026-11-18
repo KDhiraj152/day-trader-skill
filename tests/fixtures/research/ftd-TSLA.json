@@ -1,0 +1,38 @@
+{
+ "provider": "sec",
+ "warnings": null,
+ "results": [
+  {
+   "settlement_date": "2026-09-10",
+   "symbol": "TSLA",
+   "cusip": "88160R101",
+   "quantity": 3,
+   "price": 367.81,
+   "description": "TESLA INC COM STK (TX)"
+  },
+  {
+   "settlement_date": "2026-09-08",
+   "symbol": "TSLA",
+   "cusip": "88160R101",
+   "quantity": 390,
+   "price": 354.08,
+   "description": "TESLA INC COM STK (TX)"
+  },
+  {
+   "settlement_date": "2026-09-03",
+   "symbol": "TSLA",
+   "cusip": "88160R101",
+   "quantity": 1,
+   "price": 357.01,
+   "description": "TESLA INC COM STK (TX)"
+  },
+  {
+   "settlement_date": "2026-09-01",
+   "symbol": "TSLA",
+   "cusip": "88160R101",
+   "quantity": 5200,
+   "price": 367.95,
+   "description": "TESLA INC COM STK (TX)"
+  }
+ ]
+}

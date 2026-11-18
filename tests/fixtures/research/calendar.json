@@ -1,0 +1,78 @@
+{
+ "provider": "nasdaq",
+ "warnings": null,
+ "results": [
+  {
+   "report_date": "2026-11-20",
+   "symbol": "BSP",
+   "name": "Bending Spoons S.p.A.",
+   "eps_previous": null,
+   "eps_consensus": 0.25,
+   "num_estimates": 2,
+   "period_ending": "2026-09",
+   "previous_report_date": null,
+   "reporting_time": "pre-market",
+   "market_cap": 28459761700.0
+  },
+  {
+   "report_date": "2026-11-20",
+   "symbol": "BJ",
+   "name": "BJ's Wholesale Club Holdings, Inc.",
+   "eps_previous": 1.16,
+   "eps_consensus": 1.23,
+   "num_estimates": 10,
+   "period_ending": "2026-10",
+   "previous_report_date": "2025-11-21",
+   "reporting_time": "pre-market",
+   "market_cap": 14132087800.0
+  },
+  {
+   "report_date": "2026-11-20",
+   "symbol": "MOG.A",
+   "name": "Moog Inc.",
+   "eps_previous": 2.56,
+   "eps_consensus": 2.7,
+   "num_estimates": 4,
+   "period_ending": "2026-09",
+   "previous_report_date": "2025-11-21",
+   "reporting_time": "pre-market",
+   "market_cap": 10436917200.0
+  },
+  {
+   "report_date": "2026-11-20",
+   "symbol": "MOG.B",
+   "name": "Moog Inc.",
+   "eps_previous": 2.56,
+   "eps_consensus": null,
+   "num_estimates": 2,
+   "period_ending": "2026-09",
+   "previous_report_date": null,
+   "reporting_time": "pre-market",
+   "market_cap": 10436917200.0
+  },
+  {
+   "report_date": "2026-11-20",
+   "symbol": "FRO",
+   "name": "Frontline Plc",
+   "eps_previous": 0.19,
+   "eps_consensus": null,
+   "num_estimates": 2,
+   "period_ending": "2026-09",
+   "previous_report_date": null,
+   "reporting_time": "pre-market",
+   "market_cap": 10115984400.0
+  },
+  {
+   "report_date": "2026-11-20",
+   "symbol": "KT",
+   "name": "KT Corporation",
+   "eps_previous": 0.59,
+   "eps_consensus": null,
+   "num_estimates": null,
+   "period_ending": "2026-09",
+   "previous_report_date": "2025-11-07",
+   "reporting_time": "not-supplied",
+   "market_cap": 9065174000.0
+  }
+ ]
+}
