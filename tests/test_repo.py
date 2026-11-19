@@ -49,13 +49,13 @@ class Repo(unittest.TestCase):
         # appears the moment anyone runs the pack from this checkout. dist/,
         # node_modules/ and *.egg-info/ are the installer's build output,
         # which only exists after someone packages the repo.
-        build = ("dist", "node_modules", "trader_skill.egg-info")
+        build = ("dist", "node_modules", "trader_skill.egg-info", ".pytest_cache")
         root = sorted(d for d in os.listdir(ROOT)
                       if d not in (".git", ".gitignore", ".github", "trader") + build)
         self.assertEqual(root, sorted(["plugin.json", "marketplace.json", "LICENSE",
                                        "README.md", "tests", "portfolio",
                                        "pyproject.toml", "package.json",
-                                       "bin", "installer"] + SKILLS))
+                                       "bin", "installer", "trader_memory"] + SKILLS))
 
     def test_frontmatter_name_and_description(self):
         for s in SKILLS:

@@ -6,7 +6,7 @@
 # Optional: Enable vector similarity search (local backend)
 pip install faiss-cpu sentence-transformers
 
-# GBrain backend works automatically if configured in OpenCode/Hermes
+# GBrain backend works automatically if configured in OpenCode/agent
 ```
 
 ## Per-Skill Integration Pattern
@@ -159,7 +159,7 @@ print(mem.get("key", namespace="test"))
 
 ## Migration Notes
 
-1. **No breaking changes** — memory is optional, skills work without it
-2. **Auto-detection** — GBrain preferred if available, else local JSON
-3. **Vector search** — requires `pip install faiss-cpu sentence-transformers`
-4. **GBrain setup** — ensure `opencode mcp list` shows gbrain connected
+1. **No breaking changes** - memory is optional, skills work without it
+2. **Auto-detection** - GBrain preferred if available, else local JSON
+3. **Vector search** - requires `pip install faiss-cpu sentence-transformers`
+4. **GBrain setup** - ensure `opencode mcp list` shows gbrain connected

@@ -45,10 +45,10 @@ Other flags: `--replays N`, `--seed N` (default 19), `--window N` (default 2
 bars), `--offline FILE` (a saved Yahoo chart JSON, `.json` or `.json.gz`),
 `--now "2026-10-19 10:15"` (New York time) to pin the clock.
 
-**Memory Layer (NEW — auto-detects GBrain or local JSON):**
-`--memory` / `--no-memory` — force enable/disable memory layer (default: auto-detect)
-`--recall-similar` — retrieve similar setups from memory and show historical outcomes
-`--store-outcome` — store the plan + simulation result to memory after run
+**Memory Layer (NEW - auto-detects GBrain or local JSON):**
+`--memory` / `--no-memory` - force enable/disable memory layer (default: auto-detect)
+`--recall-similar` - retrieve similar setups from memory and show historical outcomes
+`--store-outcome` - store the plan + simulation result to memory after run
 
 ## What it reads and writes
 
@@ -63,9 +63,9 @@ bars), `--offline FILE` (a saved Yahoo chart JSON, `.json` or `.json.gz`),
 ## Memory Integration
 
 When GBrain is configured and running, the Time Machine automatically:
-1. **Recalls** — before simulation, searches memory for setups with similar features (OR range %, volume ratio, pre-trend, setup type) and shows historical target/stop rates and avg R
-2. **Biases** — the Monte Carlo prior is informed by historical outcomes (printed in output as "MEMORY RECALL")
-3. **Stores** — after simulation, saves the plan + results as a new memory record for future recall
+1. **Recalls** - before simulation, searches memory for setups with similar features (OR range %, volume ratio, pre-trend, setup type) and shows historical target/stop rates and avg R
+2. **Biases** - the Monte Carlo prior is informed by historical outcomes (printed in output as "MEMORY RECALL")
+3. **Stores** - after simulation, saves the plan + results as a new memory record for future recall
 
 When GBrain is not available, falls back to local `trader/memory/` with FAISS + sentence-transformers if installed, otherwise keyword matching.
 
@@ -74,7 +74,7 @@ To enable local vector search:
 pip install faiss-cpu sentence-transformers
 ```
 
-The memory layer is **optional** — the simulation works identically without it. The recall only adds context; it does not change the replay algorithm.
+The memory layer is **optional** - the simulation works identically without it. The recall only adds context; it does not change the replay algorithm.
 
 ## How it works
 

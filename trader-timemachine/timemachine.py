@@ -83,16 +83,6 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-# ============================================================ Memory Layer Integration
-try:
-    from trader_memory import MemoryStore, SetupRecord, get_memory
-    MEMORY_AVAILABLE = True
-except ImportError:
-    MEMORY_AVAILABLE = False
-    MemoryStore = None
-    SetupRecord = None
-    get_memory = None
-
 UA = "Mozilla/5.0 (compatible; trader-skill/2.1; +https://github.com/KDhiraj152/trader-skill)"
 PAUSE = 0.5          # seconds between requests: be polite to free endpoints
 BACKOFF = 5.0        # seconds to wait once after a 429
@@ -448,6 +438,88 @@ def _num(v, what):
     return x
 
 
+def normalize_plan(raw: dict, now=None) -> dict:
+    """Normalize a raw plan dict (from trader-exit JSON) into a complete plan.
+    
+    Computes: entry_bar from entry_time, last_bar from date/until, target_r, risk.
+    """
+    if now is None:
+        now = datetime.datetime.now(datetime.timezone.utc)
+    
+    # Required fields from trader-exit output
+    required = ["symbol", "date", "entry", "entry_time", "stop", "target"]
+    for r in required:
+        if r not in raw:
+            raise TMError("plan missing %s" % r)
+    
+    # Parse entry time
+    entry_time = raw["entry_time"]
+    try:
+        et = datetime.datetime.strptime(entry_time.strip(), "%I:%M %p")
+        entry_min = et.hour * 60 + et.minute
+    except ValueError:
+        raise TMError("entry_time wants format like \"10:15 AM\"")
+    k = (entry_min - OPEN_MIN) // 5
+    if not (0 <= k < SESSION_BARS):
+        raise TMError("entry bar %d out of session range (0..77)" % k)
+    
+    entry = _num(raw["entry"], "entry")
+    stop = _num(raw["stop"], "stop")
+    target = _num(raw["target"], "target")
+    
+    # Determine side from stop/target relationship
+    side = raw.get("side", "buy")
+    if side == "buy":
+        if stop >= entry:
+            raise TMError("stop must be below entry for a buy")
+        if target <= entry:
+            raise TMError("target must be above entry for a buy")
+    else:
+        if stop <= entry:
+            raise TMError("stop must be above entry for a sell")
+        if target >= entry:
+            raise TMError("target must be below entry for a sell")
+    
+    risk = abs(entry - stop)
+    target_r = round(abs(target - entry) / risk, 2)
+    
+    # Compute last_bar
+    date = raw["date"]
+    last = SESSION_BARS - 1
+    if "flat_by" in raw:
+        try:
+            ut = datetime.datetime.strptime(raw["flat_by"].strip(), "%H:%M")
+            last = min(last, (ut.hour * 60 + ut.minute - OPEN_MIN) // 5)
+        except ValueError:
+            pass
+    elif "until" in raw:
+        try:
+            ut = datetime.datetime.strptime(raw["until"].strip(), "%H:%M")
+            last = min(last, (ut.hour * 60 + ut.minute - OPEN_MIN) // 5)
+        except ValueError:
+            pass
+    if is_early_close(date):
+        last = min(last, (EARLY_MIN - OPEN_MIN) // 5)
+    if k >= last:
+        raise TMError("entry bar must be before flat_by / close")
+    
+    return {
+        "symbol": raw["symbol"].upper(),
+        "date": date,
+        "side": side,
+        "entry": entry,
+        "entry_time": entry_time,
+        "entry_bar": k,
+        "stop": stop,
+        "target": target,
+        "risk": round(risk, 2),
+        "target_r": target_r,
+        "or_minutes": raw.get("or_minutes", 15),
+        "stop_rule": raw.get("stop_rule", "auto"),
+        "last_bar": last,
+    }
+
+
 def load_plan(args, now):
     """Load plan from trader/plan.json or command-line flags."""
     if args.symbol:
@@ -544,7 +616,7 @@ def build_memory_features(plan, meta, sessions):
     }
 
 
-def recall_similar_setups(memory: MemoryStore, setup_type: str, features: dict, k: int = 5):
+def recall_similar_setups(memory, setup_type: str, features: dict, k: int = 5):
     """Retrieve similar setups from memory and return summary stats."""
     if not memory:
         return None
@@ -577,7 +649,7 @@ def recall_similar_setups(memory: MemoryStore, setup_type: str, features: dict, 
         return None
 
 
-def store_setup_outcome(memory: MemoryStore, plan, mc_result, history_result, features):
+def store_setup_outcome(memory, plan, mc_result, history_result, features):
     """Store the plan + simulation outcome to memory."""
     if not memory:
         return False
@@ -635,15 +707,20 @@ def time_machine(text, plan, now, replays=10000, seed=19, window=2, until=None, 
     # Build features for memory
     features = build_memory_features(plan, meta, sessions)
     
-    # Initialize memory if available
+    # Initialize memory if available (lazy import - trader_memory is in repo root)
     memory = None
-    if MEMORY_AVAILABLE:
-        try:
-            memory = get_memory()
-            health = memory.health_check()
-            print(f"[Memory] Backend: {health['backend']} — {health['details']}", file=sys.stderr)
-        except Exception as e:
-            print(f"[Memory] Init failed: {e}", file=sys.stderr)
+    try:
+        import sys as _sys
+        _repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if _repo_root not in _sys.path:
+            _sys.path.insert(0, _repo_root)
+        from trader_memory import get_memory
+        memory = get_memory()
+        health = memory.health_check()
+        print(f"[Memory] Backend: {health['backend']} - {health['details']}", file=sys.stderr)
+    except Exception as e:
+        print(f"[Memory] Init failed: {e}", file=sys.stderr)
+        memory = None
     
     # Recall similar setups
     prior_bias = None
@@ -678,7 +755,7 @@ def time_machine(text, plan, now, replays=10000, seed=19, window=2, until=None, 
     # Verdict
     hit = mc["p_target"] + mc["p_stop"]
     if hit == 0:
-        verdict = "No side hit in any replay — plan never triggers?"
+        verdict = "No side hit in any replay - plan never triggers?"
         target_share = 0
     else:
         target_share = mc["p_target"] / hit
@@ -700,7 +777,7 @@ def time_machine(text, plan, now, replays=10000, seed=19, window=2, until=None, 
     
     verdict_notes = []
     if mc["p_neither"] > MANY_NEITHER:
-        verdict_notes.append(f"Note: {mc['p_neither']:.0%} of replays hit neither side — the price at --until decides those.")
+        verdict_notes.append(f"Note: {mc['p_neither']:.0%} of replays hit neither side - the price at --until decides those.")
     if mc["avg_R"] is not None and (mc["avg_R"] > 0) != (gap > 0):
         verdict_notes.append(f"Note: average R is {mc['avg_R']:+.2f}, opposite sign to the lean.")
     
@@ -736,7 +813,7 @@ def report(doc):
     mem = doc.get("memory")
     
     out = []
-    out.append(f"Time Machine — {p['symbol']} {p['side'].upper()} on {p['date']}")
+    out.append(f"Time Machine - {p['symbol']} {p['side'].upper()} on {p['date']}")
     out.append("=" * 60)
     out.append(f"Entry: ${p['entry']:.2f} at {p['entry_time']} (bar {p['entry_bar']})")
     out.append(f"Stop:  ${p['stop']:.2f} (rule: {p.get('stop_rule', 'auto')})")
@@ -790,7 +867,7 @@ def render_chart(doc):
     target = plan["target"]
     
     out = []
-    out.append(f"Fan Chart — {plan['symbol']} {plan['side'].upper()} {plan['date']}")
+    out.append(f"Fan Chart - {plan['symbol']} {plan['side'].upper()} {plan['date']}")
     out.append(f"Entry {entry:.2f} | Stop {stop:.2f} | Target {target:.2f}")
     out.append("")
     

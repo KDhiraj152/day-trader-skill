@@ -235,7 +235,7 @@ class GBrainAdapter(MemoryBackend):
         """Try to connect to GBrain via MCP."""
         try:
             # Check if we're in an environment with GBrain MCP
-            # This works when running inside OpenCode/Hermes with GBrain connected
+            # This works when running inside OpenCode/agent with GBrain connected
             import subprocess
             result = subprocess.run(
                 ["opencode", "mcp", "list"],
