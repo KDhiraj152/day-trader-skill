@@ -1,0 +1,12 @@
+# Optional dependencies for enhanced memory layer
+# Install with: pip install -r trader_memory/requirements.txt
+
+# Vector similarity search (local backend)
+faiss-cpu>=1.7.4
+sentence-transformers>=2.2.2
+
+# Required for GBrain backend (already in OpenCode environment)
+# opencode-mcp-client  # Not needed - uses CLI
+
+# Core (stdlib only)
+# json, os, pathlib, uuid, time, subprocess
